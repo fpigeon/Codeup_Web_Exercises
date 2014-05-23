@@ -5,6 +5,7 @@
 	<title>My First HTML Form</title>
 </head>
 <body>
+    <h2>User Login</h2>
 	<form method="POST">
     <p>
         <label for="username">Username</label>      
@@ -18,10 +19,29 @@
         <input type="submit" name="Login" value="Login">
     </p> -->
     <p>
-        <button type="Submit">Login</button>
+        <button type="submit">Login</button>
     </p>
 
-</form>
+    </form>
+    
+    <!-- email form to, from, subject, body, and a send button -->
+    <h2>Compose an Email</h2>
+    <form method="POST">
+        <p>
+            <label for="to">to</label>
+            <input id="to" name="to" type="email">
+            <br>
+            <label for="from">from</label>
+            <input id="from" name="from" type="email">
+            <br>
+            <label for="subject">subject</label>
+            <input id="subject" name="subject" type="text">
+            <br>
+            <textarea name="body" id="body" cols="30" rows="10" placeholder="body here"></textarea>
+            <br>
+            <button type="submit">Send</button>
+        </p>    
+    </form>
 
 
 <?php
