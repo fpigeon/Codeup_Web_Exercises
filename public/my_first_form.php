@@ -46,23 +46,41 @@
     </form>
     
     <h2>Multiple Choice Test</h2>
-    <form method="POST">
-        <p>
-           What is your favorite Linux distro?<br>
-           <label for="ubuntu"><input type="radio" id="ubuntu" name="linux" value="ubuntu">Ubuntu</label>
-           <label for="red_hat"><input type="radio" id="red_hat" name="linux" value="red_hat">Red Hat</label>
-           <label for="open_suse"><input type="radio" id="open_suse" name="linux" value="open_suse">Open Suse</label>
-           <br>
-           What is your favorite Desktop Environment?<br>
-           <label for="gnome"><input type="checkbox" id="gnome" name="de[]" value="gnome">Gnome</label>
-           <label for="kde"><input type="checkbox" id="kde" name="de[]" value="kde">KDE</label>
-           <label for="xfce"><input type="checkbox" id="xfce" name="de[]" value="xfce">XFCE</label>
-           <label for="other"><input type="checkbox" id="other" name="de[]" value="other">Other</label>
-           <br>
-           <button type="submit">Submit Answers</button>
-        </p>
+    <form method="GET">
+    
+       What is your favorite Linux distro?<br>
+       <label for="ubuntu"><input type="radio" id="ubuntu" name="linux" value="ubuntu">Ubuntu</label>
+       <label for="red_hat"><input type="radio" id="red_hat" name="linux" value="red_hat">Red Hat</label>
+       <label for="open_suse"><input type="radio" id="open_suse" name="linux" value="open_suse">Open Suse</label>
+       <br>
+       What is your favorite Desktop Environment?<br>
+       <label for="gnome"><input type="checkbox" id="gnome" name="de[]" value="gnome">Gnome</label>
+       <label for="kde"><input type="checkbox" id="kde" name="de[]" value="kde">KDE</label>
+       <label for="xfce"><input type="checkbox" id="xfce" name="de[]" value="xfce">XFCE</label>
+       <label for="other"><input type="checkbox" id="other" name="de[]" value="other">Other</label>
+       <br>
+       <label for="os">What operating systems have you used?</label>
+       <br>
+       <select id="os" name="os[]" multiple>
+       <option value="linux">Linux</option>
+       <option value="osx">OS X</option>
+       <option value="windows">Windows</option>
+       </select>
+       <br>
+       <button type="submit">Submit Answers</button>
+        
     </form>
-
+    
+    <h2>Select Testing</h2>
+    <form method="GET">
+        Have installed an operating system from scratch?<br>
+        <select id="os_install" name="os_install">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+        <br>
+        <button type="OS Answers">OS Answers</button>
+    </form>
 
 <?php
 	var_dump($_GET);
