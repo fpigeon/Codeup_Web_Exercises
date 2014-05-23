@@ -39,8 +39,28 @@
             <br>
             <textarea name="body" id="body" cols="30" rows="10" placeholder="body here"></textarea>
             <br>
+            <label>Copy to your sent item?<input type="checkbox" id="sent" name="sent" value="yes" checked></label>
+            <br>
             <button type="submit">Send</button>
         </p>    
+    </form>
+    
+    <h2>Multiple Choice Test</h2>
+    <form method="POST">
+        <p>
+           What is your favorite Linux distro?<br>
+           <label for="ubuntu"><input type="radio" id="ubuntu" name="linux" value="ubuntu">Ubuntu</label>
+           <label for="red_hat"><input type="radio" id="red_hat" name="linux" value="red_hat">Red Hat</label>
+           <label for="open_suse"><input type="radio" id="open_suse" name="linux" value="open_suse">Open Suse</label>
+           <br>
+           What is your favorite Desktop Environment?<br>
+           <label for="gnome"><input type="checkbox" id="gnome" name="de[]" value="gnome">Gnome</label>
+           <label for="kde"><input type="checkbox" id="kde" name="de[]" value="kde">KDE</label>
+           <label for="xfce"><input type="checkbox" id="xfce" name="de[]" value="xfce">XFCE</label>
+           <label for="other"><input type="checkbox" id="other" name="de[]" value="other">Other</label>
+           <br>
+           <button type="submit">Submit Answers</button>
+        </p>
     </form>
 
 
