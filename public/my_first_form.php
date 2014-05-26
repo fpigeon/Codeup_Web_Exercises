@@ -83,7 +83,9 @@
     </form>
 
 <?php
-	var_dump($_GET);
+    echo 'GET' . PHP_EOL;
+	var_dump($_GET) . PHP_EOL;
+    echo 'POST' . PHP_EOL;    
 	var_dump($_POST);
 ?>
 </body>
