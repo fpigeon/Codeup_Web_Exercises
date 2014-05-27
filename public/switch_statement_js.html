@@ -1,0 +1,55 @@
+<!--
+switch (color) {
+
+    // todo: create a case statement that will handle every color except indigo and violet
+    // todo: when a color is encountered log a message that tells the color, and an object of that color
+    //       example: Blue is the color of the sky.
+
+    // todo: create a default case that will catch indigo and violet
+    // todo: for the default case, log: I do not know anything by that color.
+}
+ -->
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Switch</title>
+</head>
+<body>
+	<h2>Switch Statement Favorite Color Exercise</h2>
+	<script>
+		// ignore these lines for now
+		// just know that the variable 'color' will end up with a random value from the colors array
+		var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+		var color = colors[Math.floor(Math.random()*colors.length)];
+		var favorite = 'green'; // todo, change this to your favorite color from the list
+
+		//match favorite via turnery operator
+		var match = (color == favorite)? "AWESOME. Green is my fav color" : "Not my favorite color";
+		console.log(color + '? ' + match);
+
+		switch(color){
+			case 'red':
+				console.log('Red is the color of the Mars');
+				break;
+			case 'orange':
+				console.log('Orange is the color of the Sun');
+				break;
+			case 'yellow':
+				console.log('Yellow is the color of gold');
+				break;
+			case 'green':
+				console.log('Green is the color of traffic light that means GO');
+				break;
+			case 'blue':
+				console.log('Blue is the color of the ocean');
+				break;
+			default:
+				console.log('I do not know the anything by that color');
+				break;
+		}//end of switch statement
+
+	</script>
+</body>
+</html>
