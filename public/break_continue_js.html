@@ -42,7 +42,7 @@ Here is an odd number: 49
 <body>
 	<h2>Break Continue Exercise</h2>
 	<script>
-		//generate a randome num while it is not odd
+		//generate a random num while it is not odd
 		do{
 			var random_num = Math.floor((Math.random()*50)+1);
 		} while(random_num % 2 == 0); // while it is even go again
@@ -53,11 +53,11 @@ Here is an odd number: 49
 		for (var i = 1; i < 50; i+=2) {			
 			if (i == random_num){
 				console.log('Yikes! Skipping number: ' + i);
-			} //end of skip random number match
-			else{
+				continue;
+			} // match the random number
+			else {
 				console.log('Here is an odd number: ' + i);	
-			} // default case
-			
+			} // print the odd numbers
 		} //end of for loop
 
 
