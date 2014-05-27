@@ -10,8 +10,6 @@
 //       says whether the random color matches your favorite color.
  -->
 
-
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,6 +17,7 @@
 	<title>If Else</title>
 </head>
 <body>
+	<h2>If Else Favorite Color Exercise</h2>
 	<script>
 		// ignore these lines for now
 		// just know that the variable 'color' will end up with a random value from the colors array
@@ -26,7 +25,7 @@
 		var color = colors[Math.floor(Math.random()*colors.length)];
 		var favorite = 'green'; // todo, change this to your favorite color from the list
 
-		//match favortie via turnery operator
+		//match favorite via turnery operator
 		var match = (color == favorite)? "AWESOME. Green is my fav color" : "Not my favorite color";
 		console.log(match);
 
@@ -40,11 +39,11 @@
 			console.log('Yellow is the color of gold');
 		} //end of yellow
 		else if (color == 'green') {
-			console.log('Green is the color of traffic light that means go');
-		} //end of yellow
+			console.log('Green is the color of traffic light that means GO');
+		} //end of green
 		else if (color == 'blue') {
 			console.log('Blue is the color of the ocean');
-		} //end of yellow
+		} //end of blue
 		else{
 			console.log('I do not know the anything by that color');
 		} //default case
