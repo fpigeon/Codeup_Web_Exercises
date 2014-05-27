@@ -29,10 +29,17 @@
 <body>
 	<h2>While Loop Exercise</h2>
 	<script>
-		var i = 2;//initialize variable
-		while (i <= 66000){
+		//constants
+		const START = 2;
+		const MAX = 66000;
+		const INCREMENTOR = 2;
+		//variables
+		var i = START;//initialize variable
+		
+		//loop
+		while (i <= MAX){
 			console.log(i);
-			i = i * 2; // multiply index by 2
+			i = i * INCREMENTOR; // multiply index by 2
 		}//end of while 
 	</script>
 </body>
