@@ -23,10 +23,21 @@
 	console.log('The number of elements in the names array is ' + names.length);
 	// todo:
 	// Create log statements that will print each of the names array elements individually.
-	console.log(names[0]);
-	console.log(names[1]);
-	console.log(names[2]);
-	console.log(names[3]);
+	// console.log(names[0]);
+	// console.log(names[1]);
+	// console.log(names[2]);
+	// console.log(names[3]);
+
+	//Modify the code that logs out the names array elements individually to instead use a for loop.
+	for (i = 0; i < names.length; i++){
+		console.log(names[i]);
+	}// end of for loop
+
+	//Below the for loop, use a forEach loop to print the names again.
+	names.forEach(function(element, index, array) {
+		console.log('The name at index ' + index + ' is: ' + element);
+	});// end of for each loop
+
 	</script>
 </body>
 </html>
