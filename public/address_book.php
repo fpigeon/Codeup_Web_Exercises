@@ -24,7 +24,7 @@ LucasArts,"P.O. Box 29901","San Francisco",CA,94129-0901
 $address_book = []; // holds array for addresses
 $file_path='data/address_book.csv'; //local csv file
 $error_msg=''; //initailize variable to hold error messages
-$heading = ['name', 'address', 'city', 'state', 'zip', 'phone'];
+$heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
 $isValid = true; //form validation
 
 //Function reads a CSV file and adds it to the incoming array
@@ -89,7 +89,8 @@ if (isset($_GET['remove_item']) ){
 if(!empty($_POST)){
 	if ($isValid = storeEntry($_POST)) {
 		if (empty($_POST['phone'])){
-			array_pop($_POST);
+			//array_pop($_POST);
+			$_POST['phone'] = '';
 		} //end of no phone
 		$new_address = [];    
 		foreach ($_POST as $value) {
@@ -103,10 +104,7 @@ if(!empty($_POST)){
 	
 } //end of if something was POSTED
 
-
-
 ?>
-
  <!doctype html>
  <html lang="en">
  <head>
@@ -129,7 +127,8 @@ if(!empty($_POST)){
 				<?// $address = htmlspecialchars(strip_tags($address)); ?>
 				
 				<? foreach ($address as $value) :?>
-						<td> <?= $value ?> </td>													
+					<? $value = htmlspecialchars(strip_tags($value)); ?>
+					<td> <?= $value ?> </td>													
 				<? endforeach;  ?>
 				<td><?= "<a href=\"?remove_item=$key\">Remove Address</a>"; ?></td> 									
 				</tr>
