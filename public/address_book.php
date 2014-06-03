@@ -16,15 +16,23 @@ name, address, city, state, and zip. Display error if each is not filled out.
 5. Refactor your code to use functions where applicable.
 */
 //variables
-$address_book = [
-    ['The White House', '1600 Pennsylvania Avenue', 'Washington', 'DC', '20500'],
-    ['Marvel Comics', 'P.O. Box 1527', 'Long Island City', 'NY', '11101'],
-    ['LucasArts', 'P.O. Box 29901', 'San Francisco', 'CA', '94129']
-];
+$address_book = []; // holds array for addresses
 $file_path='data/address_book.csv'; //local csv file
 $error_msg=''; //initailize variable to hold error messages
 $heading = ['name', 'address', 'city', 'state', 'zip', 'phone'];
 $isValid = true; //form validation
+
+//Function reads a CSV file and adds it to the incoming array
+function readCSV($filename, $array){
+	$handle = fopen($filename, 'r');
+	while (!feof($handle)){
+    	$row = fgetcsv($handle);
+    	if (is_array($row)){
+        	$array[] = $row;
+    	} // end of if
+	} //while not end of file
+	return $array;
+} // end of readCSV
 
 function storeEntry($form_data){
 	$form_count = 0; //initiate variable to find out if there is form data missing
@@ -58,6 +66,9 @@ function write_csv($big_array, $filename){
     fclose($handle);
     }  //end of if
 } // end of write_csv
+
+//load from CSV file
+$address_book = readCSV($file_path, $address_book);
 
 //add new address from POST
 if(!empty($_POST)){
