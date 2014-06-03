@@ -14,6 +14,11 @@ name, address, city, state, and zip. Display error if each is not filled out.
 4. Open the CSV file in a spreadsheet program or text editor and verify the contents are what you expect after adding some entries.
 
 5. Refactor your code to use functions where applicable.
+Original Files contains:
+"The White House","1600 Pennsylvania Avenue NW",Washington,DC,20500
+"Marvel Comics","P.O. Box 1527","Long Island City",NY,11101
+LucasArts,"P.O. Box 29901","San Francisco",CA,94129-0901
+
 */
 //variables
 $address_book = []; // holds array for addresses
@@ -70,6 +75,16 @@ function write_csv($big_array, $filename){
 //load from CSV file
 $address_book = readCSV($file_path, $address_book);
 
+//remove item from address array using GET
+if (isset($_GET['remove_item']) ){
+	 $removeItem = $_GET['remove_item'];	 
+	 unset($address_book[$removeItem]); //remove from todo array	 
+	 //saveFile($file_path, $todos); // save your file
+	 write_csv($address_book, $file_path);
+	 header('Location: /address_book.php');
+	 exit(0);
+} //end of remove item
+
 //add new address from POST
 if(!empty($_POST)){
 	if ($isValid = storeEntry($_POST)) {
@@ -79,13 +94,11 @@ if(!empty($_POST)){
 		$new_address = [];    
 		foreach ($_POST as $value) {
 			$new_address[] = $value;
-		} //end of foreach
-		//array_push($address_book, $new_address);
-
+		} //end of foreach		
 		$address_book[] = $new_address;
 		write_csv($address_book, $file_path);
-		//header('Location: /address_book.php');
-		//exit(0);	
+		header('Location: /address_book.php');
+		exit(0);	
 	}  // end of valid input  
 	
 } //end of if something was POSTED
@@ -110,16 +123,17 @@ if(!empty($_POST)){
 			<? endforeach;  ?>			
 		</tr>
 			
-			<? foreach ($address_book as $address) :?>
+			<? foreach ($address_book as $key => $address) :?>
 				<tr>
 				<!-- sanitize user input -->
 				<?// $address = htmlspecialchars(strip_tags($address)); ?>
 				
 				<? foreach ($address as $value) :?>
-						<td> <?= $value ?> </td>							
-					<? endforeach;  ?>				
-				<?// = "<tr>$address <a href=\"http://codeup.dev/address_book.php?remove_item=$key\">Remove Item</a></tr>\n"; ?>
+						<td> <?= $value ?> </td>													
+				<? endforeach;  ?>
+				<td><?= "<a href=\"?remove_item=$key\">Remove Address</a>"; ?></td> 									
 				</tr>
+				
 			<? endforeach; ?>
 		
 	</table>
