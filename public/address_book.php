@@ -92,7 +92,7 @@ if(!empty($_POST)){
  <body>
 	<h1>Web Address Book</h1>
 	<!-- output array on screen -->
-	<table>
+	<table border="1">
 		<tr>			
 			<? foreach ($heading as $value) :?>
 				<th><?= $value ?> </th>								
@@ -116,27 +116,27 @@ if(!empty($_POST)){
 	<h2>Input New Address</h2>
 	<form method="POST" action="/address_book.php">		
         <label for="name">Name</label>
-        <input id="name" name="name" type="text" placeholder="Address Name">
+        <input id="name" name="name" type="text" placeholder="Address Name" value= "<?=(!$isValid && !empty($_POST['name']) ? $_POST['name'] : $POST['name'] = '') ?>">        
         <br>
 
 		<label for="address">Address</label>
-        <input id="address" name="address" type="text" placeholder="Street Address">
+        <input id="address" name="address" type="text" placeholder="Street Address"  value= "<?=(!$isValid && !empty($_POST['address']) ? $_POST['address'] : $POST['address'] = '') ?>">
         <br>
 
         <label for="city">City</label>
-        <input id="city" name="city" type="text" placeholder="City">
+        <input id="city" name="city" type="text" placeholder="City" value= "<?=(!$isValid && !empty($_POST['city']) ? $_POST['city'] : $POST['city'] = '') ?>">
         <br>
 
         <label for="state">State</label>
-        <input id="state" name="state" type="text" placeholder="State">
+        <input id="state" name="state" type="text" placeholder="State" value= "<?=(!$isValid && !empty($_POST['state']) ? $_POST['state'] : $POST['state'] = '') ?>">
         <br>
 
         <label for="zip">Zip</label>
-        <input id="zip" name="zip" type="number" placeholder="Zip Code">
+        <input id="zip" name="zip" type="number" placeholder="Zip Code" value= "<?=(!$isValid && !empty($_POST['zip']) ? $_POST['zip'] : $POST['zip'] = '') ?>">
         <br>
 
         <label for="phone">Phone</label>
-        <input id="phone" name="phone" type="tel" placeholder="Phone Number">
+        <input id="phone" name="phone" type="tel" placeholder="Phone Number" value= "<?=(!$isValid && !empty($_POST['phone']) ? $_POST['phone'] : $POST['phone'] = '') ?>">
         <br>
         <button type="submit">Add Address</button>
 	</form>
