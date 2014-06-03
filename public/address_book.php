@@ -100,8 +100,7 @@ if(!empty($_POST)){
 		write_csv($address_book, $file_path);
 		header('Location: /address_book.php');
 		exit(0);	
-	}  // end of valid input  
-	
+	}  // end of valid input	
 } //end of if something was POSTED
 
 ?>
@@ -119,8 +118,7 @@ if(!empty($_POST)){
 			<? foreach ($heading as $value) :?>
 				<th><?= $value ?> </th>								
 			<? endforeach;  ?>			
-		</tr>
-			
+		</tr>			
 			<? foreach ($address_book as $key => $address) :?>
 				<tr>
 				<!-- sanitize user input -->
@@ -131,10 +129,8 @@ if(!empty($_POST)){
 					<td> <?= $value ?> </td>													
 				<? endforeach;  ?>
 				<td><?= "<a href=\"?remove_item=$key\">Remove Address</a>"; ?></td> 									
-				</tr>
-				
-			<? endforeach; ?>
-		
+				</tr>				
+			<? endforeach; ?>		
 	</table>
 
 	<h2>Input New Address</h2>
