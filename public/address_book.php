@@ -25,17 +25,34 @@ class AddressDataStore {
 
     public $filename = '';
 
-    function read_address_book()
-    {
-        // Code to read file $this->filename
-    }
+    public function read_address_book($array) {
+	    $handle = fopen($this->filename, 'r');
+		while (!feof($handle)){
+	    	$row = fgetcsv($handle);
+	    	if (is_array($row)){
+	        	$array[] = $row;
+	    	} // end of if
+		} //while not end of file
+		return $array;
+    } // end of read_address_book
 
-    function write_address_book($addresses_array) 
+    public function write_address_book($big_array) 
     {
-        // Code to write $addresses_array to file $this->filename
-    }
+        if(is_writable($this->filename)) {
+	     	$handle = fopen($this->filename, 'w');
+	        foreach($big_array as $value){
+	        	fputcsv($handle, $value);
+	        } // end of foreach
+	    	fclose($handle);
+    	}  //end of if
+    } //end of write_address_book
 
-}
+} //end of AddressDataStore
+
+//iniitailize class
+$address_data_store1 = new AddressDataStore;
+$address_data_store1->filename = 'data/address_book.csv';
+
 
 //variables
 $address_book = []; // holds array for addresses
@@ -45,16 +62,16 @@ $heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
 $isValid = true; //form validation
 
 //Function reads a CSV file and adds it to the incoming array
-function readCSV($filename, $array){
-	$handle = fopen($filename, 'r');
-	while (!feof($handle)){
-    	$row = fgetcsv($handle);
-    	if (is_array($row)){
-        	$array[] = $row;
-    	} // end of if
-	} //while not end of file
-	return $array;
-} // end of readCSV
+// function readCSV($filename, $array){
+// 	$handle = fopen($filename, 'r');
+// 	while (!feof($handle)){
+//     	$row = fgetcsv($handle);
+//     	if (is_array($row)){
+//         	$array[] = $row;
+//     	} // end of if
+// 	} //while not end of file
+// 	return $array;
+// } // end of readCSV
 
 function storeEntry($form_data){
 	$form_count = 0; //initiate variable to find out if there is form data missing
@@ -79,25 +96,25 @@ function storeEntry($form_data){
 	} //end of else
 } //end of storeEntry
 
-function write_csv($big_array, $filename){
-    if(is_writable($filename)) {
-     	$handle = fopen($filename, 'w');
-        foreach($big_array as $value){
-        	fputcsv($handle, $value);
-        } // end of foreach
-    fclose($handle);
-    }  //end of if
-} // end of write_csv
+// function write_csv($big_array, $filename){
+//     if(is_writable($filename)) {
+//      	$handle = fopen($filename, 'w');
+//         foreach($big_array as $value){
+//         	fputcsv($handle, $value);
+//         } // end of foreach
+//     fclose($handle);
+//     }  //end of if
+// } // end of write_csv
 
 //load from CSV file
-$address_book = readCSV($file_path, $address_book);
-
+//OLD $address_book = readCSV($file_path, $address_book);
+$address_book = $address_data_store1->read_address_book($address_book);
 //remove item from address array using GET
 if (isset($_GET['remove_item']) ){
 	 $removeItem = $_GET['remove_item'];	 
 	 unset($address_book[$removeItem]); //remove from todo array	 
-	 //saveFile($file_path, $todos); // save your file
-	 write_csv($address_book, $file_path);
+	 //OLD write_csv($address_book, $file_path);
+	 $address_data_store1->write_address_book($address_book);
 	 header('Location: /address_book.php');
 	 exit(0);
 } //end of remove item
@@ -114,7 +131,8 @@ if(!empty($_POST)){
 			$new_address[] = $value;
 		} //end of foreach		
 		$address_book[] = $new_address;
-		write_csv($address_book, $file_path);
+		//OLD write_csv($address_book, $file_path);
+		$address_data_store1->write_address_book($address_book);
 		header('Location: /address_book.php');
 		exit(0);	
 	}  // end of valid input	
