@@ -17,9 +17,9 @@ name, address, city, state, and zip. Display error if each is not filled out.
 */
 //variables
 $address_book = [
-    ['The White House', '1600 Pennsylvania Avenue', 'Washington', 'DC', '20500', '111-111-1111'],
-    ['Marvel Comics', 'P.O. Box 1527', 'Long Island City', 'NY', '11101', '222-222-2222'],
-    ['LucasArts', 'P.O. Box 29901', 'San Francisco', 'CA', '94129', '333-333-3333']
+    ['The White House', '1600 Pennsylvania Avenue', 'Washington', 'DC', '20500'],
+    ['Marvel Comics', 'P.O. Box 1527', 'Long Island City', 'NY', '11101'],
+    ['LucasArts', 'P.O. Box 29901', 'San Francisco', 'CA', '94129']
 ];
 $file_path='data/address_book.csv'; //local csv file
 $error_msg=''; //initailize variable to hold error messages
@@ -36,9 +36,18 @@ function storeEntry($form_data){
 			$form_count++;
 		} //end of if		
 	} //end of foreach
-	$msg = ($form_count > 4) ? 'You have all your data'  : 'You are missing data' ;
-	echo $msg;
-} //end of check_new_entry
+	//$msg = ($form_count > 4) ? 'You have all your data'  : 'You are missing data' ;
+	//echo $msg;
+	
+	if ($form_count > 4) {
+		echo 'You have all your data' . PHP_EOL;		
+		return true;
+	} //end of if
+	else {
+		echo 'You are missing data' . PHP_EOL;
+		return false;
+	} //end of else
+} //end of storeEntry
 
 function write_csv($big_array, $filename){
     if(is_writable($filename)) {
@@ -50,18 +59,27 @@ function write_csv($big_array, $filename){
     }  //end of if
 } // end of write_csv
 
-//add new address  from POST
+//add new address from POST
 if(!empty($_POST)){
-	$new_address = [];
-    $isValid = storeEntry($_POST);    
-	foreach ($_POST as $value) {
-		$new_address[] = $value;
-	} //end of foreach
-	array_push($address_book, $new_address);
-	//var_dump($address_book);
-} //end of if
+	if ($isValid = storeEntry($_POST)) {
+		if (empty($_POST['phone'])){
+			array_pop($_POST);
+		} //end of no phone
+		$new_address = [];    
+		foreach ($_POST as $value) {
+			$new_address[] = $value;
+		} //end of foreach
+		//array_push($address_book, $new_address);
 
-write_csv($address_book, $file_path);
+		$address_book[] = $new_address;
+		write_csv($address_book, $file_path);
+		//header('Location: /address_book.php');
+		//exit(0);	
+	}  // end of valid input  
+	
+} //end of if something was POSTED
+
+
 
 ?>
 
@@ -77,8 +95,8 @@ write_csv($address_book, $file_path);
 	<table>
 		<tr>			
 			<? foreach ($heading as $value) :?>
-					<th><?= $value ?> </th>								
-				<? endforeach;  ?>			
+				<th><?= $value ?> </th>								
+			<? endforeach;  ?>			
 		</tr>
 			
 			<? foreach ($address_book as $address) :?>
