@@ -6,7 +6,8 @@ that stores entries in a CSV file on your computer. In the same fashion as your 
   Each entry should take a name, address, city, state, zip, and phone.
    You can use a HTML table or definition lists for displaying the addresses.
 
-2. Create a function to store a new entry. A new entry should have validate 5 required fields: name, address, city, state, and zip. Display error if each is not filled out.
+2. Create a function to store a new entry. A new entry should have validate 5 required fields:
+name, address, city, state, and zip. Display error if each is not filled out.
 
 3. Use a CSV file to save to your list after each valid entry.
 
@@ -28,7 +29,7 @@ $isValid = true; //form validation
 function storeEntry($form_data){
 	$form_count = 0; //initiate variable to find out if there is form data missing
 	$msg = '';
-	var_dump($form_data);
+	//var_dump($form_data);
 	foreach ($form_data as $data) {
 		if (!empty($data)) {
 			//echo 'missing data';
@@ -37,7 +38,6 @@ function storeEntry($form_data){
 	} //end of foreach
 	$msg = ($form_count > 4) ? 'You have all your data'  : 'You are missing data' ;
 	echo $msg;
-	return
 } //end of check_new_entry
 
 function write_csv($big_array, $filename){
@@ -58,7 +58,7 @@ if(!empty($_POST)){
 		$new_address[] = $value;
 	} //end of foreach
 	array_push($address_book, $new_address);
-	var_dump($address_book);
+	//var_dump($address_book);
 } //end of if
 
 write_csv($address_book, $file_path);
