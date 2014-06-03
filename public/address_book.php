@@ -53,25 +53,11 @@ class AddressDataStore {
 $address_data_store1 = new AddressDataStore;
 $address_data_store1->filename = 'data/address_book.csv';
 
-
 //variables
 $address_book = []; // holds array for addresses
-$file_path='data/address_book.csv'; //local csv file
 $error_msg=''; //initailize variable to hold error messages
 $heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
 $isValid = true; //form validation
-
-//Function reads a CSV file and adds it to the incoming array
-// function readCSV($filename, $array){
-// 	$handle = fopen($filename, 'r');
-// 	while (!feof($handle)){
-//     	$row = fgetcsv($handle);
-//     	if (is_array($row)){
-//         	$array[] = $row;
-//     	} // end of if
-// 	} //while not end of file
-// 	return $array;
-// } // end of readCSV
 
 function storeEntry($form_data){
 	$form_count = 0; //initiate variable to find out if there is form data missing
@@ -82,9 +68,7 @@ function storeEntry($form_data){
 			//echo 'missing data';
 			$form_count++;
 		} //end of if		
-	} //end of foreach
-	//$msg = ($form_count > 4) ? 'You have all your data'  : 'You are missing data' ;
-	//echo $msg;
+	} //end of foreach	
 	
 	if ($form_count > 4) {
 		echo 'You have all your data' . PHP_EOL;		
@@ -96,24 +80,13 @@ function storeEntry($form_data){
 	} //end of else
 } //end of storeEntry
 
-// function write_csv($big_array, $filename){
-//     if(is_writable($filename)) {
-//      	$handle = fopen($filename, 'w');
-//         foreach($big_array as $value){
-//         	fputcsv($handle, $value);
-//         } // end of foreach
-//     fclose($handle);
-//     }  //end of if
-// } // end of write_csv
-
 //load from CSV file
-//OLD $address_book = readCSV($file_path, $address_book);
 $address_book = $address_data_store1->read_address_book($address_book);
+
 //remove item from address array using GET
 if (isset($_GET['remove_item']) ){
 	 $removeItem = $_GET['remove_item'];	 
 	 unset($address_book[$removeItem]); //remove from todo array	 
-	 //OLD write_csv($address_book, $file_path);
 	 $address_data_store1->write_address_book($address_book);
 	 header('Location: /address_book.php');
 	 exit(0);
@@ -131,7 +104,6 @@ if(!empty($_POST)){
 			$new_address[] = $value;
 		} //end of foreach		
 		$address_book[] = $new_address;
-		//OLD write_csv($address_book, $file_path);
 		$address_data_store1->write_address_book($address_book);
 		header('Location: /address_book.php');
 		exit(0);	
@@ -155,11 +127,9 @@ if(!empty($_POST)){
 			<? endforeach;  ?>			
 		</tr>			
 			<? foreach ($address_book as $key => $address) :?>
-				<tr>
-				<!-- sanitize user input -->
-				<?// $address = htmlspecialchars(strip_tags($address)); ?>
-				
+				<tr>								
 				<? foreach ($address as $value) :?>
+					<!-- sanitize user input -->
 					<? $value = htmlspecialchars(strip_tags($value)); ?>
 					<td> <?= $value ?> </td>													
 				<? endforeach;  ?>
