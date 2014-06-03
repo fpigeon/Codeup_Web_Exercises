@@ -20,6 +20,23 @@ Original Files contains:
 LucasArts,"P.O. Box 29901","San Francisco",CA,94129-0901
 
 */
+//classes
+class AddressDataStore {
+
+    public $filename = '';
+
+    function read_address_book()
+    {
+        // Code to read file $this->filename
+    }
+
+    function write_address_book($addresses_array) 
+    {
+        // Code to write $addresses_array to file $this->filename
+    }
+
+}
+
 //variables
 $address_book = []; // holds array for addresses
 $file_path='data/address_book.csv'; //local csv file
