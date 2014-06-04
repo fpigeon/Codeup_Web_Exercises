@@ -21,49 +21,15 @@ Original CSV will contain
 LucasArts,"P.O. Box 29901","San Francisco",CA,94129-0901,
 */
 
-//classes
-class AddressDataStore {
-
-    public $filename = '';
-
-    public function __construct($file = 'data/address_book.csv') {
-    	$this->filename = $file;
-    }
-
-    public function read_address_book($array) {
-	    $handle = fopen($this->filename, 'r');
-		while (!feof($handle)){
-	    	$row = fgetcsv($handle);
-	    	if (is_array($row)){
-	        	$array[] = $row;
-	    	} // end of if
-		} //while not end of file
-		return $array;
-    } // end of read_address_book
-
-    public function write_address_book($big_array) 
-    {
-        if(is_writable($this->filename)) {
-	     	$handle = fopen($this->filename, 'w');
-	        foreach($big_array as $value){
-	        	fputcsv($handle, $value);
-	        } // end of foreach
-	    	fclose($handle);
-    	}  //end of if
-    } //end of write_address_book
-
-    function __destruct() 
-    {
-        echo 'Class dismissed'. PHP_EOL;
-    }
-
-} //end of AddressDataStore
+//include classes
+include('classes/address_data_store.php');
 
 //iniitailize class
 $address_data_store1 = new AddressDataStore();
 
 //variables
 $address_book = []; // holds array for addresses
+$uploaded_addreses = []; //new array for uploaded files
 $error_msg=''; //initailize variable to hold error messages
 $heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
 $isValid = false; //form validation
@@ -132,7 +98,6 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
 
 	    //create new instance of for uploaded CSV
 		$address_data_store2 = new AddressDataStore($saved_filename);
-		$uploaded_addreses = []; //new array for uploaded files
 		//parse uploaded CSV and assign to $uploaded_address array
 		$uploaded_addreses = $address_data_store2->read_address_book($uploaded_addreses);
 		//merge uploaded and local arrays
@@ -144,8 +109,6 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
     	$error_msg = 'Upload error: wrong file type. Must be .csv';
     }  // end of not csv type
 } //end of if something was uploaded
-
-//unset($address_data_store1); //call destructor
 
 ?>
  <!doctype html>
