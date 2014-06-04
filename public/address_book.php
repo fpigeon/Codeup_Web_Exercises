@@ -111,7 +111,33 @@ if(!empty($_POST)){
 		$address_data_store1->write_address_book($address_book);
 		header('Location: /address_book.php');
 		exit(0);	
-	}  // end of valid input	
+	}  // end of valid input
+} //end of if empty
+
+//move uploaded files to the upload directory	
+if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
+	if ($_FILES['file1']['type'] == 'text/csv'){
+		$upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
+	    // Grab the filename from the uploaded file by using basename
+	    $filename = basename($_FILES['file1']['name']);
+	    // Create the saved filename using the file's original name and our upload directory
+	    $saved_filename = $upload_dir . $filename;
+	    // Move the file from the temp location to our uploads directory
+	    move_uploaded_file($_FILES['file1']['tmp_name'], $saved_filename);
+
+	    //create new instance of for uploaded CSV
+		$address_data_store2 = new AddressDataStore($saved_filename);
+		$uploaded_addreses = []; //new array for uploaded files
+		//parse uploaded CSV and assign to $uploaded_address array
+		$uploaded_addreses = $address_data_store2->read_address_book($uploaded_addreses);
+		//merge uploaded and local arrays
+		$address_book = array_merge($address_book, $uploaded_addreses);
+		//save to file
+		$address_data_store1->write_address_book($address_book);	    
+	} // Set the destination directory for uploads
+    else{
+    	$error_msg = 'Upload error: wrong file type. Must be .csv';
+    } 
 } //end of if something was POSTED
 
 ?>
@@ -123,7 +149,14 @@ if(!empty($_POST)){
  </head>
  <body>
 	<h1>Web Address Book</h1>
-	<!-- output array on screen -->
+	<!-- display error message if exists -->
+	<? if(!empty($error_msg)) : ?>
+		<h4>ERROR:</h4>
+		<?= $error_msg . PHP_EOL;?>
+		<?= PHP_EOL;?>
+	<? endif; ?>
+
+	<!-- output addresses on screen in a table -->
 	<table border="1">
 		<tr>			
 			<? foreach ($heading as $value) :?>
@@ -169,5 +202,13 @@ if(!empty($_POST)){
         <br>
         <button type="submit">Add Address</button>
 	</form>
+
+	<h2>Upload File</h2>
+	<form method="POST" enctype="multipart/form-data">
+	    <label for="file1">File to upload: </label>
+	    <input type="file" id="file1" name="file1">
+		<br>
+	    <input type="submit" value="Upload">    
+	</form>	
  </body>
  </html>
