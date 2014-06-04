@@ -1,0 +1,44 @@
+<!--
+1. Create an HTML file named functions_js.html within the ~/vagrant-lamp/sites/codeup.dev/public folder on your Mac.
+2. Copy and paste the code below as inline JavaScript and complete the todo items in the code.
+3. Finally, save your work, commit the changes to your git repository, and push to GitHub.
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Function</title>
+</head>
+<body>
+	<h2>Function</h2>
+	<script>
+	var myNameIs = 'Frank'; // todo: Fill in your name here.
+
+	// todo:
+	// Create a function called 'sayHello' that takes a parameter 'name'.
+	// When called, the function should log a message that says hello from the passed in name.
+	function sayHello(name){
+		console.log('Hello ' + name);
+	} //end of SayHello
+
+	// todo: Call the function 'sayHello' passing the variable 'myNameIs' as a parameter.
+	sayHello(myNameIs);
+	// do not worry about the details of this line
+	// just know that it genrates a random number between 1 and 100
+	var random = Math.floor((Math.random()*100)+1);
+	console.log('Random Number is ' + random);
+	// todo:
+	// Create a function called 'isOdd' that takes a number as a parameter.
+	// The function should use the ternary operator to log a message.
+	// The log should tell the number passed in and whether it is odd or not.
+	function isOdd(number){
+		var msg = (number % 2 == 0 ? 'Number is Even' :  'Number is Odd');
+		console.log(msg);
+	} //end of isOdd
+	
+	// todo: Call the function 'isOdd' passing the variable 'random' as a parameter.
+	isOdd(random);
+	</script>
+</body>
+</html>

@@ -14,11 +14,11 @@ name, address, city, state, and zip. Display error if each is not filled out.
 4. Open the CSV file in a spreadsheet program or text editor and verify the contents are what you expect after adding some entries.
 
 5. Refactor your code to use functions where applicable.
-Original Files contains:
+
+Original CSV will contain
 "The White House","1600 Pennsylvania Avenue NW",Washington,DC,20500,
 "Marvel Comics","P.O. Box 1527","Long Island City",NY,11101,
 LucasArts,"P.O. Box 29901","San Francisco",CA,94129-0901,
-
 */
 //classes
 class AddressDataStore {
@@ -28,6 +28,7 @@ class AddressDataStore {
     function __construct($file = 'data/address_book.csv') {
     	$this->filename = $file;
     }
+
 
     public function read_address_book($array) {
 	    $handle = fopen($this->filename, 'r');
@@ -54,6 +55,7 @@ class AddressDataStore {
 } //end of AddressDataStore
 
 //iniitailize class
+
 $address_data_store1 = new AddressDataStore();
 // $address_data_store1->filename = 'data/address_book.csv';
 

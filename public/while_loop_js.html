@@ -1,0 +1,46 @@
+<!--
+1) Create an HTML file named while_loop_js.html within the ~/vagrant-lamp/sites/codeup.dev/public folder on your Mac.
+2) Use inline JavaScript to create a while loop that uses console.log to create the output shown below.
+3) Finally, save your work, commit the changes to your git repository, and push to GitHub.
+2
+4
+8
+16
+32
+64
+128
+256
+512
+1024
+2048
+4096
+8192
+16384
+32768
+65536
+ -->
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>While Loop</title>
+</head>
+<body>
+	<h2>While Loop Exercise</h2>
+	<script>
+		//constants
+		const START = 2;
+		const MAX = 66000;
+		const INCREMENTOR = 2;
+		//variables
+		var i = START;//initialize variable
+		
+		//loop
+		while (i <= MAX){
+			console.log(i);
+			i = i * INCREMENTOR; // multiply index by 2
+		}//end of while 
+	</script>
+</body>
+</html>
