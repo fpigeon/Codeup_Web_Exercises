@@ -20,12 +20,13 @@ Original CSV will contain
 "Marvel Comics","P.O. Box 1527","Long Island City",NY,11101,
 LucasArts,"P.O. Box 29901","San Francisco",CA,94129-0901,
 */
+
 //classes
 class AddressDataStore {
 
     public $filename = '';
 
-    function __construct($file = 'data/address_book.csv') {
+    public function __construct($file = 'data/address_book.csv') {
     	$this->filename = $file;
     }
 
@@ -55,15 +56,13 @@ class AddressDataStore {
 } //end of AddressDataStore
 
 //iniitailize class
-
 $address_data_store1 = new AddressDataStore();
-// $address_data_store1->filename = 'data/address_book.csv';
 
 //variables
 $address_book = []; // holds array for addresses
 $error_msg=''; //initailize variable to hold error messages
 $heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
-$isValid = true; //form validation
+$isValid = false; //form validation
 
 function storeEntry($form_data){
 	$form_count = 0; //initiate variable to find out if there is form data missing
