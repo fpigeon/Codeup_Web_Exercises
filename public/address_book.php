@@ -50,7 +50,7 @@ class AddressDataStore {
 } //end of AddressDataStore
 
 //iniitailize class
-$address_data_store1 = new AddressDataStore;
+$address_data_store1 = new AddressDataStore();
 $address_data_store1->filename = 'data/address_book.csv';
 
 //variables
@@ -126,16 +126,16 @@ if(!empty($_POST)){
 				<th><?= $value ?> </th>								
 			<? endforeach;  ?>			
 		</tr>			
-			<? foreach ($address_book as $key => $address) :?>
-				<tr>								
-				<? foreach ($address as $value) :?>
-					<!-- sanitize user input -->
-					<? $value = htmlspecialchars(strip_tags($value)); ?>
-					<td> <?= $value ?> </td>													
-				<? endforeach;  ?>
-				<td><?= "<a href=\"?remove_item=$key\">Remove Address</a>"; ?></td> 									
-				</tr>				
-			<? endforeach; ?>		
+		<? foreach ($address_book as $key => $address) :?>
+			<tr>								
+			<? foreach ($address as $value) :?>
+				<!-- sanitize user input -->
+				<? $value = htmlspecialchars(strip_tags($value)); ?>
+				<td> <?= $value ?> </td>													
+			<? endforeach;  ?>
+			<td><?= "<a href=\"?remove_item=$key\">Remove Address</a>"; ?></td> 									
+			</tr>				
+		<? endforeach; ?>		
 	</table>
 
 	<h2>Input New Address</h2>
