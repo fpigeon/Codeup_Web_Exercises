@@ -52,6 +52,11 @@ class AddressDataStore {
     	}  //end of if
     } //end of write_address_book
 
+    function __destruct() 
+    {
+        echo 'Class dismissed'. PHP_EOL;
+    }
+
 } //end of AddressDataStore
 
 //iniitailize class
@@ -140,6 +145,8 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
     }  // end of not csv type
 } //end of if something was uploaded
 
+unset($address_data_store1);
+unset($address_data_store2);
 ?>
  <!doctype html>
  <html lang="en">
