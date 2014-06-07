@@ -33,6 +33,7 @@ $uploaded_addreses = []; //new array for uploaded files
 $error_msg=''; //initailize variable to hold error messages
 $heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
 $isValid = false; //form validation
+$saved_file_items = [];//new array for uploaded address book
 
 function storeEntry($form_data){
 	$form_count = 0; //initiate variable to find out if there is form data missing
@@ -109,41 +110,6 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
     	$error_msg = 'Upload error: wrong file type. Must be .csv';
     }  // end of not csv type
 } //end of if something was uploaded
-
-//move uploaded files to the upload directory	
-if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
-	if ($_FILES['file1']['type'] == 'text/csv'){
-		$upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
-	    // Grab the filename from the uploaded file by using basename
-	    $filename = basename($_FILES['file1']['name']);
-	    // Create the saved filename using the file's original name and our upload directory
-	    $saved_filename = $upload_dir . $filename;
-	    // Move the file from the temp location to our uploads directory
-	    move_uploaded_file($_FILES['file1']['tmp_name'], $saved_filename);
-
-	    //add items to the todo list
-	    $address_data_store2 = new AddressDataStore($saved_filename);
-	    $saved_file_items = [];
-	    $address_book[] = $address_data_store2->read_address_book($saved_file_items);
-	    //var_dump($saved_file_items);
-	    //$saved_file_items = open_file($saved_filename);
-	 	//$new_address = [];    
-		// foreach ($saved_file_items as $value) {
-		//  	$new_address[] = $value;
-		//  } //end of foreach		
-		//$address_book[] = $new_address;
-		//array_merge($address_book, $saved_file_items);
-		var_dump($address_book);
-		//$address_data_store1->write_address_book($address_book);
-	    // foreach ($saved_file_items as $list_item) {
-	    //     array_push($todos, $list_item); //add to the end of the array
-	    // } //end of foreach
-	    // saveFile($file_path, $todos); // save your file	
-	} // Set the destination directory for uploads
-    else{
-    	$error_msg = 'Upload error: wrong file type. Must be .csv';
-    } 
-} //end of if to move uploaded files
 
 ?>
  <!doctype html>
