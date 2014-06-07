@@ -1,0 +1,63 @@
+<!-- 1. Create an HTML file named css-selectors.html within the ~/vagrant-lamp/sites/codeup.dev/public folder on your Mac.
+2. Copy and paste the code template below. Next, replace all the "selector-todo"s with the appropriate selector based on the comment above.
+3. View the results in your browser to test for the expected output.
+4. Finally, save your work, commit the changes to your git repository, and push to github. -->
+
+
+<html>
+  <head>
+    <title>Selectors Exercise</title>
+    <style>
+
+      /* selector for id="container" */
+      #container {
+        margin: 50px auto;
+        width: 500px;
+        padding: 10px;
+      }
+
+      /* 
+        selector for all "h1" elements
+        that are a descendent of id="container"
+        and have a class of "fancy-header"
+        */
+      #container h1.fancy-header {
+        color: blue;
+        text-decoration: underline;
+      }
+
+      /* selector for all "em" elements */
+      em {
+        font-weight: bold;
+      }
+
+      /* selector for all elements with class="article" */
+      .article {
+        clear:both;
+      }
+
+      /* 
+        selector for all "anchor" elements
+        that are a direct child of an element with class="article" 
+        */
+      .article>a {
+        float:right;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <section class="article">
+        <h1 class="fancy-header">Heading One</h1>
+        <p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut <em>aliquip</em> ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <a href="">Read More</a>
+      </section>
+      <section class="article">
+        <h1 class="fancy-header">Heading Two</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur <em>adipisicing</em> elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <a href="">Read More</a>
+      </section>
+    </div>
+  </body>
+</html>

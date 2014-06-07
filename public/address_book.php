@@ -21,45 +21,15 @@ Original CSV will contain
 LucasArts,"P.O. Box 29901","San Francisco",CA,94129-0901,
 */
 
-//classes
-class AddressDataStore {
-
-    public $filename = '';
-
-    public function __construct($file = 'data/address_book.csv') {
-    	$this->filename = $file;
-    }
-
-
-    public function read_address_book($array) {
-	    $handle = fopen($this->filename, 'r');
-		while (!feof($handle)){
-	    	$row = fgetcsv($handle);
-	    	if (is_array($row)){
-	        	$array[] = $row;
-	    	} // end of if
-		} //while not end of file
-		return $array;
-    } // end of read_address_book
-
-    public function write_address_book($big_array) 
-    {
-        if(is_writable($this->filename)) {
-	     	$handle = fopen($this->filename, 'w');
-	        foreach($big_array as $value){
-	        	fputcsv($handle, $value);
-	        } // end of foreach
-	    	fclose($handle);
-    	}  //end of if
-    } //end of write_address_book
-
-} //end of AddressDataStore
+//include classes
+require_once('classes/address_data_store.php');
 
 //iniitailize class
 $address_data_store1 = new AddressDataStore();
 
 //variables
 $address_book = []; // holds array for addresses
+$uploaded_addreses = []; //new array for uploaded files
 $error_msg=''; //initailize variable to hold error messages
 $heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
 $isValid = false; //form validation
@@ -112,8 +82,33 @@ if(!empty($_POST)){
 		$address_data_store1->write_address_book($address_book);
 		header('Location: /address_book.php');
 		exit(0);	
-	}  // end of valid input	
-} //end of if something was POSTED
+	}  // end of valid input
+} //end of if empty
+
+//move uploaded files to the upload directory	
+if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
+	if ($_FILES['file1']['type'] == 'text/csv'){
+		$upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
+	    // Grab the filename from the uploaded file by using basename
+	    $filename = basename($_FILES['file1']['name']);
+	    // Create the saved filename using the file's original name and our upload directory
+	    $saved_filename = $upload_dir . $filename;
+	    // Move the file from the temp location to our uploads directory
+	    move_uploaded_file($_FILES['file1']['tmp_name'], $saved_filename);
+
+	    //create new instance of for uploaded CSV
+		$address_data_store2 = new AddressDataStore($saved_filename);
+		//parse uploaded CSV and assign to $uploaded_address array
+		$uploaded_addreses = $address_data_store2->read_address_book($uploaded_addreses);
+		//merge uploaded and local arrays
+		$address_book = array_merge($address_book, $uploaded_addreses);
+		//save to file
+		$address_data_store1->write_address_book($address_book);	    
+	} // end of if files are csv
+    else{
+    	$error_msg = 'Upload error: wrong file type. Must be .csv';
+    }  // end of not csv type
+} //end of if something was uploaded
 
 //move uploaded files to the upload directory	
 if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
@@ -159,23 +154,30 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
  </head>
  <body>
 	<h1>Web Address Book</h1>
-	<!-- output array on screen -->
+	<!-- display error message if exists -->
+	<? if(!empty($error_msg)) : ?>
+		<h4>ERROR:</h4>
+		<?= $error_msg . PHP_EOL;?>
+		<?= PHP_EOL;?>
+	<? endif; ?>
+
+	<!-- output addresses on screen in a table -->
 	<table border="1">
 		<tr>			
 			<? foreach ($heading as $value) :?>
 				<th><?= $value ?> </th>								
 			<? endforeach;  ?>			
 		</tr>			
-			<? foreach ($address_book as $key => $address) :?>
-				<tr>								
-				<? foreach ($address as $value) :?>
-					<!-- sanitize user input -->
-					<? $value = htmlspecialchars(strip_tags($value)); ?>
-					<td> <?= $value ?> </td>													
-				<? endforeach;  ?>
-				<td><?= "<a href=\"?remove_item=$key\">Remove Address</a>"; ?></td> 									
-				</tr>				
-			<? endforeach; ?>		
+		<? foreach ($address_book as $key => $address) :?>
+			<tr>								
+			<? foreach ($address as $value) :?>
+				<!-- sanitize user input -->
+				<? $value = htmlspecialchars(strip_tags($value)); ?>
+				<td> <?= $value ?> </td>													
+			<? endforeach;  ?>
+			<td><?= "<a href=\"?remove_item=$key\">Remove Address</a>"; ?></td> 									
+			</tr>				
+		<? endforeach; ?>		
 	</table>
 
 	<h2>Input New Address</h2>

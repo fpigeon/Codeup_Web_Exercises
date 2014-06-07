@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Positioning Exercise</title>
+  <style>
+    div{
+      border: 1px;
+      height: 50px;
+      width: 50px;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid black;
+      color: white;
+    }
+    h1{
+      font-weight: bold;
+      margin-bottom: 50px;
+    }
+    .container{
+        margin: 50px auto;
+        width: 450px;
+        height: 350px;
+        border: 1px solid #000;
+        padding: 10px 10px;
+        position: relative;
+    }
+    .red{
+      background-color: red;
+      position: absolute;
+      top: 120px;
+      left: 0;
+    }
+    .orange{
+      background-color: orange;
+      position: absolute;
+      top: 120px;
+      left: 120px;
+    }
+    .yellow{
+      background-color: yellow;
+      position: absolute;
+      top: 120px;
+      left: 244px;
+    }
+    .green{
+      background-color: green;
+      position: absolute;
+      top: 240px;
+      left: 0;
+    }
+    .blue{
+      background-color: blue;
+      position: absolute;
+      top: 240px;
+      left: 120px;
+    }
+    .voilet{
+      background-color: purple;
+      position: absolute;
+      top: 240px;
+      left: 244px;
+    }
+    .img{
+      position: absolute;
+      top: -40px;
+      right: -40px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="http://en.wikipedia.org/wiki/Visible_spectrum" target="_blank"><h1>Visible Spectrum Wavelengths</h1></a>
+    <div class="red">
+      620-750 nm
+      <img src="img/codeup-arrow.png" alt="codeup logo" class="img">
+    </div>
+    <div class= "orange">
+      590-620 nm
+      <img src="img/codeup-arrow.png" alt="codeup logo" class="img">
+    </div>
+    <div class= "yellow">
+      570-590 nm
+      <img src="img/codeup-arrow.png" alt="codeup logo" class="img">
+    </div>
+    <div class= "green">
+      495-570 nm
+      <img src="img/codeup-arrow.png" alt="codeup logo" class="img">
+    </div>
+    <div class= "blue">
+      450-495 nm
+      <img src="img/codeup-arrow.png" alt="codeup logo" class="img">
+    </div>
+    <div class= "voilet">
+      380-450 nm
+      <img src="img/codeup-arrow.png" alt="codeup logo" class="img">
+    </div>
+  </div>  
+</body>
+</html>
