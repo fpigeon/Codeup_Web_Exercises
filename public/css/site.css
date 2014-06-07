@@ -4,6 +4,17 @@ in a directory named "css" in the web root
 */
 
 .fancy-header {
-    color: blue;
+    color: #9F937B;
     text-decoration: underline;
+    padding-left:2cm;
+}
+
+p{
+	color: #7C8D96;
+    font-family: "Trebuchet MS";
+    text-decoration:underline;
+    padding-left:2cm;
+}
+body{
+	background: #5F5E5D;
 }
