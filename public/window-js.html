@@ -26,15 +26,15 @@
             clearTimeout(timeoutId);
             timeoutId = setTimeout(function () {                    
                     save();
-            }, delay);          
-            
-
+            }, delay);                  
         }// end of autosave
 
-        // don't modify the line below
-        // this causes the autosave function to be called whenever
-        // a key up event occurs in the textarea
-        // we will learn about events in the DOM lessons
+        /*
+        don't modify the line below
+        this causes the autosave function to be called whenever
+        a key up event occurs in the textarea
+        we will learn about events in the DOM lessons
+        */
         var textarea = document.getElementById('important');
         textarea.addEventListener('keyup', autosave, false);
 
