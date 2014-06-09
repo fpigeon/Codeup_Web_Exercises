@@ -11,7 +11,7 @@
         var delay = 5000; // delay time in milliseconds
             timeoutId = null; //tracks timeout
         
-        
+
         function save() {
             alert('Saved!');
         }
@@ -23,7 +23,7 @@
             // so that the save() function is called 5 seconds after
             // the last key up event. If a new key up event occurs,
             // you need to cancel the existing timer and set a new one.
-            clearInterval(timeoutId);
+            clearTimeout(timeoutId);
             timeoutId = setTimeout(function () {                    
                     save();
             }, delay);          
