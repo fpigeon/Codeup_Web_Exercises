@@ -14,39 +14,70 @@
     </ul>
     <h2 id="sub-header">Hello Again.</h2>
     <p class="sub-paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
+    <button id="btn1">Java is Cool</button>
+    <button id="btn2">Make it Blue</button>
+    <button id="btn3">Color Table</button>
+    <button id="btn4">Mission Accomplished</button>
     <script>
+        //function that replaces main header to Java is Cool
+        var javaIsCool = function (event) {
+            // todo: get the main header element by id
+            var mainHeader = document.getElementById('main-header');
 
-        // todo: get the main header element by id
-        var mainHeader = document.getElementById('main-header');
+            // todo: set inner html of mainHeader to "JavaScript is Cool"
+            mainHeader.innerHTML = "JavaScript is Cool";
+        } // end javaIsCool
 
-        // todo: set inner html of mainHeader to "JavaScript is Cool"
-        mainHeader.innerHTML = "JavaScript is Cool";
+        // function that makes the subheader color blue
+        var makeItBlue = function (event) {
+            // todo: get the sub header element by id
+            var subHeader = document.getElementById('sub-header');
 
-        // todo: get the sub header element by id
-        var subHeader = document.getElementById('sub-header');
+            // todo: set the text color of subHeader to blue
+            subHeader.style['color'] = 'blue';
+        } // end makeItBlue
 
-        // todo: set the text color of subHeader to blue
-        subHeader.style['color'] = 'blue';
+        //function that alternates color grey on list items and 
+        //changes the first element to blue
+        var colorTable = function (event) {
+            // todo: get all list items
+            var listItems = document.getElementsByTagName('li');
 
-        // todo: get all list items
-        var listItems = document.getElementsByTagName('li');
+            // todo: set text color on every other list item to grey
+            // todo: set text color of li with dbid = 1 to blue
+            for (var i = 0; i < listItems.length; i=i+2) {
+                listItems[i].style['color'] = '#666';
+                var dbId = listItems[i].attributes['data-dbid'].value;
+                if (dbId == "1"){
+                    listItems[i].style['color'] = 'blue';
+                } //end of if
+            } //end of for loop        
+        } // end of colorTable
 
-        // todo: set text color on every other list item to grey
-        // todo: set text color of li with dbid = 1 to blue
-        for (var i = 0; i < listItems.length; i=i+2) {
-            listItems[i].style['color'] = '#666';
-            var dbId = listItems[i].attributes['data-dbid'].value;
-            if (dbId == "1"){
-                listItems[i].style['color'] = 'blue';
-            }
-        }        
+        //changes the paragraph text into mission accomplished
+        var missionAccomplished = function (event) {
+            // todo: get all elements with class name sub-paragraph
+            var subParagraphs = document.getElementsByClassName('sub-paragraph');
+
+            // todo: change the text in the first sub paragraph to "Mission Accomplished!"
+            subParagraphs[0].innerHTML = "Mission Accomplished";
+        } // end missionAccomplished
+
+        // add event javaIsCool to btn1
+        var btn1 = document.getElementById('btn1');
+        btn1.addEventListener('click', javaIsCool, false);
         
-        // todo: get all elements with class name sub-paragraph
-        var subParagraphs = document.getElementsByClassName('sub-paragraph');
+        // add event makeItBlue to btn2
+        var btn2 = document.getElementById('btn2');
+        btn2.addEventListener('click', makeItBlue, false);
+        
+         // add event makeItBlue to btn3
+        var btn3 = document.getElementById('btn3');
+        btn3.addEventListener('click', colorTable, false);
 
-        // todo: change the text in the first sub paragraph to "Mission Accomplished!"
-        subParagraphs[0].innerHTML = "Mission Accomplished";
+         // add event missionAccomplished to btn4
+        var btn4 = document.getElementById('btn4');
+        btn4.addEventListener('click', missionAccomplished, false);        
     </script>
 
 </body>
