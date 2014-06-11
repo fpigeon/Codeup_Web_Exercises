@@ -1,3 +1,11 @@
+<!-- 
+1. Create content in your HTML file using at least the following elements: h1, p, ul, li, div.
+2. Add several attributes to your elements; you will need both id and class attributes.
+3. Use jQuery to select an element by the id. Alert the contents of the element.
+4. Update the jQuery code to select and alert a different id.
+5. Use the same id on 2 elements. How does this change the jQuery selection?
+6. Remove the duplicate id. Each id should be unique on that page.
+ -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,11 +14,31 @@
 	<script src="/js/jquery.js"></script>
 </head>
 <body>
-	<h1>JQuery Exercise</h1>
+	<h1 class="makeBig">JQuery Exercise</h1>
+	<p id="para1">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum itaque animi optio harum vitae. Atque, reiciendis molestiae vitae et fugiat doloremque id illum? Quod dignissimos nulla ea architecto ducimus non!	
+	</p>
+	<p id="para1">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, quaerat, assumenda, at non cupiditate facilis quod incidunt suscipit labore eveniet laborum voluptas placeat minima distinctio et esse harum quasi mollitia?
+	</p>
+	<h2 class="makeBig">This is a unordered list</h2>
+	<ul>
+		<li class="coolList">Item 1</li>
+		<li class="coolList">Item 2</li>
+		<li class="coolList">Item 3</li>
+		<li class="coolList">Item 4</li>
+		<li class="coolList">Item 5</li>
+	</ul>
+	<div id="footer">
+		<h2>This is the Footer</h2>
+	</div>
 	<script>
-		$(document).ready(function() {
-    		alert( 'The DOM has finished loading!' );
-		});
+		// $('.makeBig').each(function (index) {
+		// 	alert($(this).html());
+		// });
+    	alert( $('.makeBig').html() );
+    	alert( $('#para1').html() );
+    	alert( $('.coolList').html("new stuff") );
 	</script>
 </body>
 </html>
