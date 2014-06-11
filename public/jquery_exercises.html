@@ -32,11 +32,25 @@
 	<div>
 		<h2>This is the Footer</h2>
 	</div>
-	<script>
-    	$('li').css('font-size', '20px');
-    	$('h1, p, li').css('background-color', 'yellow');
-    	alert($('h1'));
+	<script>    	
+    	$('h1').click(function(){
+    		$(this).css('background-color', 'yellow');
+    	});	//end of click
 
+		$('p').dblclick(function(){
+    		$(this).css('font-size', '18px');
+    	});	 //end of double click   	
+   		
+   		$('li').hover(
+   			function(){
+   				//hover in
+   				$(this).css('color', 'red');
+   			}, 
+   			function(){
+   				//hover out
+   				$(this).css('color', 'black');
+   		}); //end of hover
+ 	
 	</script>
 </body>
 </html>
