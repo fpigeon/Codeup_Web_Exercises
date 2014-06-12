@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JQuery FAQs</title>
+	<style>
+		.invisible{
+			 display: none;
+		}
+		.show{
+			display: inline;
+		}
+	</style>
+</head>
+<body>
+	<h1>10 FAQs about National Parks</h1>
+	<dl>
+		<dt>Question 1?</dt>
+	    	<dd class="invisible">A) Answer 1.</dd>
+		<dt>Question 2?</dt>
+	    	<dd class="invisible">A) Answer 2.</dd>
+	 	<dt>Question 3?</dt>
+	    	<dd class="invisible">A) Answer 3.</dd>
+	 	<dt>Question 4?</dt>
+	    	<dd class="invisible">A) Answer 4.</dd>
+	 	<dt>Question 5?</dt>
+	    	<dd class="invisible">A) Answer 5.</dd>
+	 	<dt>Question 6?</dt>
+	    	<dd class="invisible">A) Answer 6.</dd>
+	    <dt>Question 7?</dt>
+	    	<dd class="invisible">A) Answer 7.</dd>
+	   	<dt>Question 8?</dt>
+	    	<dd class="invisible">A) Answer 8.</dd>
+	    <dt>Question 9?</dt>
+	    	<dd class="invisible">A) Answer 9.</dd>
+	    <dt>Question 10?</dt>
+	    	<dd class="invisible">A) Answer 10.</dd>
+	</dl>
+	<a href="#" id="show_answers">Click to toggle answers</a>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script>
+		$('#show_answers').click(function(event) {
+        	event.preventDefault();
+        	$('.invisible').toggleClass('show');
+    	});
+	</script>
+</body>
+</html>
