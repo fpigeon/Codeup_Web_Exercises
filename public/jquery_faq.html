@@ -33,20 +33,23 @@
 	    <dt>Question 10?</dt>
 	    	<dd class="invisible">A) Answer 10.</dd>
 	</dl>
-		<h3>National Park Name 1</h3>
+	
+	<h3>National Park Name 1</h3>
 	<ul>
 		<li>fact 1</li>
 		<li>fact 2</li>
 		<li>fact 3</li>
 		<li>fact 4</li>
 	</ul>
-		<h3>National Park Name 2</h3>
+	
+	<h3>National Park Name 2</h3>
 	<ul>
 		<li>fact 1</li>
 		<li>fact 2</li>
 		<li>fact 3</li>
 		<li>fact 4</li>
 	</ul>
+	
 	<h3>National Park Name 3</h3>
 	<ul>		
 		<li>fact 1</li>
@@ -55,6 +58,7 @@
 		<li>fact 4</li>
 	</ul>
 	<a href="#" id="show_answers">Click to toggle answers</a>
+	
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script>
 		//click link to toggle hidden of dd tags
@@ -64,7 +68,7 @@
     	});
 
 		//makes the first li element in each ul have font-weight: bold
-    	$('ul').each(function () {
+    	$('ul').each(function() {
     		$(this).children().first().css('font-weight', 'bold');
     	});
 
