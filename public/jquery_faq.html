@@ -7,10 +7,7 @@
 		.invisible{
 			 display: none;
 		}
-		.show{
-			display: inline;
-		}
-	</style>
+	</style>	
 </head>
 <body>
 	<h1>10 FAQs about National Parks</h1>
@@ -39,9 +36,9 @@
 	<a href="#" id="show_answers">Click to toggle answers</a>
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script>
-		$('#show_answers').click(function(event) {
-        	event.preventDefault();
-        	$('.invisible').toggleClass('show');
+		$('#show_answers').click(function(event) {     
+            event.preventDefault();
+        	$('dd').toggleClass('invisible');
     	});
 	</script>
 </body>
