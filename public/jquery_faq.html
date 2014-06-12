@@ -72,10 +72,16 @@
     		$(this).children().first().css('font-weight', 'bold');
     	});
 
-    	//adds the invisible class on the parent ul of any li that is clicked.  
-    	$('li').click(function(event) {                 
-        	$(this).parent().hide();
+    	// adds the invisible class on the parent ul of any li that is clicked.  
+    	// $('li').click(function(event) {                 
+     	// $(this).parent().hide();
+    	// });
+
+    	/*Update the h3 and ul lists to work like the example above. Clicking the h3 should show or hide the associated ul list items. Use fading effects for hiding and showing the list items. Discard code that hid list when li was clicked.*/
+    	$('h3').click(function(event) {                 
+        	$(this).next().fadeToggle();
     	});
+
 	</script>
 </body>
 </html>
