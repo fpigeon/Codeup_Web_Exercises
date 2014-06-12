@@ -8,10 +8,43 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Whack-A-Mole</title>
+	<style>
+		#main_container{
+			border: 1px;
+			height: 700px;
+			width: 901px;
+			padding: 10px;
+			margin-bottom: 10px;
+			border: 1px solid black;
+			color: white;
+		}
+		.hole{
+			border: 1px;
+			height: 200px;
+			width: 267px;
+			padding: 0px;
+			border: 1px solid red;
+			float: left;	
+		}
+
+	</style>
 </head>
 <body>
 	<h1>Whack-A-Mole</h1>
 	<img id="mole" style="display:none; cursor:pointer" src="/img/mole.png" alt="mole">
+
+	<!-- main container div -->
+	<div id="main_container">
+		<div class="hole"></div>
+		<div class="hole"></div>
+		<div class="hole"></div>
+		<div class="hole" style="clear:left"></div>
+		<div class="hole" ></div>
+		<div class="hole"></div>
+		<div class="hole" style="clear:left"></div>
+		<div class="hole"></div>
+		<div class="hole"></div>
+	</div>
 
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script>		
