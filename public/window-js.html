@@ -1,20 +1,18 @@
 <html>
 <head>
-    <title>Delayed Autosave</title>
+    <title>Delayed Autosave</title>    
 </head>
 <body>
-
-    <h2>Autosaving Text Input</h2>
+    <h2>Autosaving Text Input</h2>    
     <textarea rows="10" cols="60" id="important"></textarea>
-
-    <script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script>        
         var delay = 5000; // delay time in milliseconds
             timeoutId = null; //tracks timeout
-        
 
         function save() {
             alert('Saved!');
-        }
+        } //end of save
 
         function autosave() {
             // todo:
@@ -34,10 +32,9 @@
         a key up event occurs in the textarea
         we will learn about events in the DOM lessons
         */
-        var textarea = document.getElementById('important');
-        textarea.addEventListener('keyup', autosave, false);
-
+        $('#important').keyup(function(){
+           autosave();
+        }); //end of keyup
     </script>
-
 </body>
 </html>
