@@ -11,10 +11,11 @@
 </head>
 <body>
 	<h1>Whack-A-Mole</h1>
-	<img id="mole" src="/img/mole.png" alt="mole">
+	<img id="mole" style="display:none; cursor:pointer" src="/img/mole.png" alt="mole">
 
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script>
+	<script>		
+		$('#mole').fadeIn(1500);
 		$('#mole').click(function(event) {     
             event.preventDefault();
         	$(this).fadeOut();
