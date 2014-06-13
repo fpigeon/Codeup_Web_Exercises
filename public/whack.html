@@ -15,6 +15,10 @@
 		h1{
 			color: white;
 			text-align: center;			
+		}
+		h2{
+			color:white;
+			text-align: center;
 		}		
 		.mole{
 			height: 195px;
@@ -46,6 +50,7 @@
 </head>
 <body>
 	<h1>Whack-A-Mole</h1>
+	<h2 id="running_total">Score: 0</h2>	
 	<!-- main container div -->
 	<div id="main_container">
 		<div class="hole" id="hole1">
@@ -82,9 +87,13 @@
 		//constants
 		const MIN = 1; // first box
 		const MAX = 9; // last box
-
 		//variables
-		var random_box = 0;
+		var random_box = 0; //assign random number
+		var score = 0; //keeps track of score
+		var count = 0; //start loop index
+		var max_count = 10; //max loop index
+		var interval = 2000; // interval time in milliseconds		
+        
 		// Returns a random integer between min and max
 		// Using Math.round() will give you a non-uniform distribution!
 		function getRandomInt(min, max) {
@@ -92,14 +101,32 @@
 		} // end of getRandomInt
 
 		//main
-		//get a random number
-		random_box = getRandomInt(MIN, MAX);
-		$(('#hole'+random_box)).children().fadeIn(1500);
-		//$(#('hole'+random_box).fadeIn(1500));
-		//$('.mole').fadeIn(1500);
+        function new_mole() {
+            //get a random number		
+			random_box = getRandomInt(MIN, MAX);
+			$(('#hole'+random_box)).children().fadeIn(1000);
+			$(('#hole'+random_box)).children().fadeOut(2000);
+        } //end of new_mole		
+		
+		//create a mole
+		var intervalId = setInterval(function () {
+		    if (count >= max_count) {
+		        clearInterval(intervalId);
+		        alert('GAME OVER');
+		        location.reload(); // reload page, possibly from cache
+		    } else {
+		        count++;
+		        new_mole();
+		    }
+		}, interval);
+
+		//when you click a mole
 		$('.mole').click(function(event) {     
             event.preventDefault();
-        	$(this).fadeOut();
+        	score += 10;
+        	$(this).hide();        	
+        	console.log(score);
+        	$('#running_total').text('Score: '+score);
     	});
 	</script>
 </body>
