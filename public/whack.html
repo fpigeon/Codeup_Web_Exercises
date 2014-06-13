@@ -1,7 +1,18 @@
 <!--
-1. Create a new file named whack.html that contains a basic HTML layout.
-2. In your new whack.html file, find a photo you would like (a mole is appropriate here) and save it to a folder for images. Add the image to the page, and when it is clicked, have it fade out.
-3. Update the code to fade the image in, then wait for a click to fade the image out.
+To build this game, follow these steps:
+* Create your HTML markup and CSS to position your holes. These will be element that your mole will pop in and out of.
+* Randomly select a hole on page load and change its background color to red. You may want to nest another element, and use an animated method like .fadeIn().
+* Change the red background to use an image. This could be a mole, or any other image you'd like to use.
+* Update the code to remove the mole when it is clicked.
+* Add score. Each time the mole is successfully clicked, increase the displayed score by 1.
+
+Bonus
+* Add a start button. Don't start the game until the button is pressed.
+* Add a timer. Only allow clicks during the period. If the timer is 30 seconds, the game should quit recording clicks after 30 seconds, and should activate the start button. Clicking the start button should reset the game.
+* Keep the high score for the round. This does not need to persist between page loads, although it could if you wanted it to.
+* Make the moles appear more often after each click.
+
+
  -->
 <!doctype html>
 <html lang="en">
@@ -58,12 +69,17 @@
   			margin-right: auto;
   			text-align: center;
 		}
+		#running_totals{
+			font-size: 30px;
+			color:white;
+			text-align: center;
+		}
 	</style>
 </head>
 <body>
 	<div id="header">
 		<h1>Whack-A-Mole</h1>
-		<h2 id="running_total">Score: 0</h2>
+		<div id="running_totals"><span id="running_total">Score: 0</span> <span id="timer">TIME: 0</span></div>
 		<span><button id="start_button">START GAME</button></span>
 	</div>
 	
@@ -103,13 +119,14 @@
 		//constants
 		const MIN = 1; // first box
 		const MAX = 9; // last box
+		const RUNTIME = 10000; //runtime for app 10 seconds
 		//variables
 		var random_box = 0; //assign random number
 		var score = 0; //keeps track of score
 		var count = 0; //start loop index
 		var max_count = 10; //max loop index
-		var interval = 2000; // interval time in milliseconds		
-        
+		var interval = 1000; // interval time is 1s
+		
 		// Returns a random integer between min and max
 		// Using Math.round() will give you a non-uniform distribution!
 		function getRandomInt(min, max) {
@@ -131,19 +148,36 @@
         	$(this).hide();        	
         	console.log(score);
         	$('#running_total').text('Score: '+score);
+
     	}); //end of click on mole
 
     	//when you click the start button
-		$('#start_button').click(function(event) { 			           
+		$('#start_button').click(function(event) {
+			// get the start timestamp 
+			var start = Date.now();						           
+        	
         	//create a mole
 			var intervalId = setInterval(function () {
-		    if (count >= max_count) {
+		    if (count >= max_count || elapsed >= RUNTIME) {
+		        //clear timer, counter, score
+		        console.log('met');
+		        elapsed = 0;
+		        count = 0;
+		        score = 0;
 		        clearInterval(intervalId);
 		        alert('GAME OVER');
 		        //location.reload(); // reload page, possibly from cache
 		    } else {
-		        count++; //increment score + 10
+		        count++; //increment count
+		        console.log(count);
 		        new_mole(); // create new mole
+		        // get the end timestamp
+				var end = Date.now();
+				// calculate the elapsed time in milliseconds
+				var elapsed = end - start;
+				var time_display = (RUNTIME - elapsed) / 1000;
+				$('#timer').text('TIME: ' + time_display + ' sec'); 	
+				console.log(elapsed);
 		    }
 		}, interval);
     	}); //end of start button
