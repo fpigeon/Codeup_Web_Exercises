@@ -79,7 +79,24 @@
 
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script>
-		$('.mole').fadeIn(1500);
+		//constants
+		const MIN = 1; // first box
+		const MAX = 9; // last box
+
+		//variables
+		var random_box = 0;
+		// Returns a random integer between min and max
+		// Using Math.round() will give you a non-uniform distribution!
+		function getRandomInt(min, max) {
+		  return Math.floor(Math.random() * (max - min + 1)) + min;
+		} // end of getRandomInt
+
+		//main
+		//get a random number
+		random_box = getRandomInt(MIN, MAX);
+		$(('#hole'+random_box)).children().fadeIn(1500);
+		//$(#('hole'+random_box).fadeIn(1500));
+		//$('.mole').fadeIn(1500);
 		$('.mole').click(function(event) {     
             event.preventDefault();
         	$(this).fadeOut();
