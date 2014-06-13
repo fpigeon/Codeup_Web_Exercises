@@ -46,11 +46,27 @@
 			margin-left: auto;
   			margin-right: auto;
 		}
+		#start_button{
+			color: white;
+			background-color: #FF814A;
+			width: 100px; 
+			height: 50px;						
+		}
+		#header{
+			width: 825px;
+			margin-left: auto;
+  			margin-right: auto;
+  			text-align: center;
+		}
 	</style>
 </head>
 <body>
-	<h1>Whack-A-Mole</h1>
-	<h2 id="running_total">Score: 0</h2>	
+	<div id="header">
+		<h1>Whack-A-Mole</h1>
+		<h2 id="running_total">Score: 0</h2>
+		<span><button id="start_button">START GAME</button></span>
+	</div>
+	
 	<!-- main container div -->
 	<div id="main_container">
 		<div class="hole" id="hole1">
@@ -100,7 +116,7 @@
 		  return Math.floor(Math.random() * (max - min + 1)) + min;
 		} // end of getRandomInt
 
-		//main
+		//will create a mole in the random hole
         function new_mole() {
             //get a random number		
 			random_box = getRandomInt(MIN, MAX);
@@ -108,26 +124,29 @@
 			$(('#hole'+random_box)).children().fadeOut(2000);
         } //end of new_mole		
 		
-		//create a mole
-		var intervalId = setInterval(function () {
-		    if (count >= max_count) {
-		        clearInterval(intervalId);
-		        alert('GAME OVER');
-		        location.reload(); // reload page, possibly from cache
-		    } else {
-		        count++;
-		        new_mole();
-		    }
-		}, interval);
-
-		//when you click a mole
+		//when you click a mole add to score
 		$('.mole').click(function(event) {     
             event.preventDefault();
         	score += 10;
         	$(this).hide();        	
         	console.log(score);
         	$('#running_total').text('Score: '+score);
-    	});
+    	}); //end of click on mole
+
+    	//when you click the start button
+		$('#start_button').click(function(event) { 			           
+        	//create a mole
+			var intervalId = setInterval(function () {
+		    if (count >= max_count) {
+		        clearInterval(intervalId);
+		        alert('GAME OVER');
+		        //location.reload(); // reload page, possibly from cache
+		    } else {
+		        count++; //increment score + 10
+		        new_mole(); // create new mole
+		    }
+		}, interval);
+    	}); //end of start button
 	</script>
 </body>
 </html>
