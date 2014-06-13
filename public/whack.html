@@ -9,47 +9,78 @@
 	<meta charset="UTF-8">
 	<title>Whack-A-Mole</title>
 	<style>
-		#main_container{
-			border: 1px;
-			height: 700px;
-			width: 901px;
-			padding: 10px;
-			margin-bottom: 10px;
-			border: 1px solid black;
+		body{
+			background-color: #534557;			
+		}
+		h1{
 			color: white;
+			text-align: center;			
+		}		
+		.mole{
+			height: 195px;
+			width: 260px;
+			display: none;
+			cursor: pointer;
 		}
 		.hole{
 			border: 1px;
 			height: 200px;
 			width: 267px;
 			padding: 0px;
-			border: 1px solid red;
+			border: 4px solid #FF814A;
+			background-color: #785D6B;
 			float: left;	
 		}
-
+		#main_container{
+			border: 1px;
+			height: 625px;
+			width: 825px;
+			padding: 10px;
+			margin: 10px;
+			border: 4px solid #FFF;
+			color: white;
+			margin-left: auto;
+  			margin-right: auto;
+		}
 	</style>
 </head>
 <body>
 	<h1>Whack-A-Mole</h1>
-	<img id="mole" style="display:none; cursor:pointer" src="/img/mole.png" alt="mole">
-
 	<!-- main container div -->
 	<div id="main_container">
-		<div class="hole"></div>
-		<div class="hole"></div>
-		<div class="hole"></div>
-		<div class="hole" style="clear:left"></div>
-		<div class="hole" ></div>
-		<div class="hole"></div>
-		<div class="hole" style="clear:left"></div>
-		<div class="hole"></div>
-		<div class="hole"></div>
+		<div class="hole" id="hole1">
+			<img id="mole1" class="mole" src="/img/mole.png" alt="mole1">
+		</div>
+		<div class="hole" id="hole2">
+			<img id="mole2" class="mole" src="/img/mole.png" alt="mole2">
+		</div>
+		<div class="hole" id="hole3">
+			<img id="mole3" class="mole" src="/img/mole.png" alt="mole3">
+		</div>
+		<div class="hole" id="hole4" style="clear:left">
+			<img id="mole4" class="mole" src="/img/mole.png" alt="mole4">
+		</div>
+		<div class="hole" id="hole5" >
+			<img id="mole5" class="mole" src="/img/mole.png" alt="mole5">
+		</div>
+		<div class="hole" id="hole6" >
+			<img id="mole6" class="mole" src="/img/mole.png" alt="mole6">
+		</div>
+		<div class="hole" id="hole7" style="clear:left">
+			<img id="mole7" class="mole" src="/img/mole.png" alt="mole7">
+		</div>
+		<div class="hole" id="hole8">
+			<img id="mole8"  class="mole" src="/img/mole.png" alt="mole8">
+		</div>
+		<div class="hole" id="hole9">
+			<img id="mole9" class="mole" src="/img/mole.png" alt="mole9">
+		</div>
 	</div>
 
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script>		
-		$('#mole').fadeIn(1500);
-		$('#mole').click(function(event) {     
+	<script>
+		$('.mole').fadeIn(1500);
+		$('.mole').click(function(event) {     
             event.preventDefault();
         	$(this).fadeOut();
     	});
