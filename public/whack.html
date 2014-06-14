@@ -26,10 +26,6 @@ Bonus
 		h1{
 			color: white;
 			text-align: center;			
-		}
-		h2{
-			color:white;
-			text-align: center;
 		}		
 		.mole{
 			height: 195px;
@@ -148,38 +144,42 @@ Bonus
         	$(this).hide();        	
         	console.log(score);
         	$('#running_total').text('Score: '+score);
-
     	}); //end of click on mole
 
     	//when you click the start button
 		$('#start_button').click(function(event) {
 			// get the start timestamp 
 			var start = Date.now();						           
-        	
-        	//create a mole
-			var intervalId = setInterval(function () {
-		    if (count >= max_count || elapsed >= RUNTIME) {
-		        //clear timer, counter, score
-		        console.log('met');
-		        elapsed = 0;
-		        count = 0;
-		        score = 0;
-		        clearInterval(intervalId);
-		        alert('GAME OVER');
-		        //location.reload(); // reload page, possibly from cache
-		    } else {
-		        count++; //increment count
-		        console.log(count);
-		        new_mole(); // create new mole
-		        // get the end timestamp
-				var end = Date.now();
-				// calculate the elapsed time in milliseconds
-				var elapsed = end - start;
-				var time_display = (RUNTIME - elapsed) / 1000;
-				$('#timer').text('TIME: ' + time_display + ' sec'); 	
-				console.log(elapsed);
-		    }
-		}, interval);
+        	$('#running_total').text('Score: '+score);
+        	//create a mole only on first click
+        	var intervalId = null;
+			
+			intervalId = setInterval(function () {
+		    	if ((count >= max_count || elapsed >= RUNTIME)) {
+			        //clear timer, counter, score
+			        console.log('met');				        
+			        elapsed = 0;
+			        count = 0;
+			        score = 0;
+			        
+			        clearInterval(intervalId);
+			        alert('GAME OVER');
+			        //location.reload(); // reload page, possibly from cache
+		    	} //end of if 
+		    	else {
+			        // get the end timestamp
+			        var end = Date.now();
+			        // calculate the elapsed time in milliseconds
+					var elapsed = end - start;
+					//elapsed = (elapsed)
+					var time_display = Math.round((RUNTIME - elapsed) / 1000);
+					$('#timer').text('TIME: ' + time_display + ' sec'); 	
+					console.log(elapsed);
+
+			        count++; //increment count				        
+			        new_mole(); // create new mole						
+		    	} //end of else
+			}, interval);
     	}); //end of start button
 	</script>
 </body>
