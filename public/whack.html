@@ -152,14 +152,11 @@ Bonus
 			// get the start timestamp 
 			var start = Date.now();
 			//update the score						           
-        	$('#running_total').text('Score: '+score);
-        	//create a mole only on first click
-        	//var intervalId = null;
+        	$('#running_total').text('Score: '+score);        	
 			
 			intervalId = setInterval(function () {
 		    	if (count >= max_count || elapsed >= RUNTIME ) {
-			        //clear timer, counter, score
-			        console.log('met');				        
+			        //clear timer, counter, score			        
 			        elapsed = 0;
 			        count = 0;
 			        score = 0;
