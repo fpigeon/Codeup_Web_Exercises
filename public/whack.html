@@ -142,29 +142,40 @@ Bonus
             event.preventDefault();
         	score += 10;
         	$(this).hide();        	
-        	console.log(score);
         	$('#running_total').text('Score: '+score);
     	}); //end of click on mole
 
     	//when you click the start button
 		$('#start_button').click(function(event) {
+			//disable the start button
+			$('#start_button').attr("disabled", true);
 			// get the start timestamp 
-			var start = Date.now();						           
-        	$('#running_total').text('Score: '+score);
-        	//create a mole only on first click
-        	var intervalId = null;
+			var start = Date.now();
+			//update the score						           
+        	$('#running_total').text('Score: '+score);        	
 			
 			intervalId = setInterval(function () {
+<<<<<<< HEAD
 		    	if ((count >= max_count || elapsed >= RUNTIME) && intervalId != null) {
 			        //clear timer, counter, score
 			        console.log('met');				        
+=======
+		    	if (count >= max_count || elapsed >= RUNTIME ) {
+			        //clear timer, counter, score			        
+>>>>>>> 2a1fb387e23be059daf792739e054c8f86bc472d
 			        elapsed = 0;
 			        count = 0;
 			        score = 0;
-			        
+			        //hide all moles 			        
+			        $('.mole').hide();
 			        clearInterval(intervalId);
 			        alert('GAME OVER');
+<<<<<<< HEAD
 			        location.reload(); // reload page, possibly from cache
+=======
+			        //location.reload(); // reload page, possibly from cache
+			        $('#start_button').attr("disabled", false);
+>>>>>>> 2a1fb387e23be059daf792739e054c8f86bc472d
 		    	} //end of if 
 		    	else {
 			        // get the end timestamp
@@ -173,8 +184,7 @@ Bonus
 					var elapsed = end - start;
 					//elapsed = (elapsed)
 					var time_display = Math.round((RUNTIME - elapsed) / 1000);
-					$('#timer').text('TIME: ' + time_display + ' sec'); 	
-					console.log(elapsed);
+					$('#timer').text('TIME: ' + time_display + ' sec');
 
 			        count++; //increment count				        
 			        new_mole(); // create new mole						
