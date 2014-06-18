@@ -138,8 +138,8 @@ Bonus
 			random_box = getRandomInt(MIN, MAX);
 			$(('#hole'+random_box)).children().fadeIn(1000);
 			$(('#hole'+random_box)).children().fadeOut(0500);
-        } //end of new_mole		
-		
+        } //end of new_mole	
+
 		//when you click a mole add to score
 		$('.mole').click(function(event) {     
             event.preventDefault();
@@ -148,13 +148,13 @@ Bonus
         	$('#running_total').text('Score: '+score);
     	}); //end of click on mole
 
-    	//when you click the start button
+    	//start game only when you click the start button
 		$('#start_button').click(function(event) {
 			//disable the start button
 			$('#start_button').attr("disabled", true);
 			// get the start timestamp 
 			var start = Date.now();
-			//update the score						           
+			//refresh the score 
         	$('#running_total').text('Score: '+score);        	
 			
 			intervalId = setInterval(function () {
@@ -172,12 +172,7 @@ Bonus
 			        elapsed = 0;
 			        count = 0;
 			        score = 0;			        
-			        alert('GAME OVER');
-			        high_score = score;
-			        if (high_score > high_score) {
-			        	$('#high_score').text('High Score: ' + high_score + ' pts');
-			        }			        
-			        //location.reload(); // reload page, possibly from cache
+			        alert('GAME OVER');			        
 			        $('#start_button').attr("disabled", false);
 		    	} //end of if 
 		    	else {
@@ -191,7 +186,7 @@ Bonus
 			        count++; //increment count				        
 			        new_mole(); // create new mole						
 		    	} //end of else
-			}, interval);
+			}, interval;
     	}); //end of start button
 	</script>
 </body>
