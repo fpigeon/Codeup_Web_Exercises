@@ -75,8 +75,12 @@ Bonus
 <body>
 	<div id="header">
 		<h1>Whack-A-Mole</h1>
-		<div id="running_totals"><span id="running_total">Score: 0</span> <span id="timer">TIME: 0</span></div>
-		<span><button id="start_button">START GAME</button></span>
+		<div id="running_totals">
+			<span id="running_total">Score: 0</span>
+		 	<span id="timer">TIME: 0</span>
+		 	<span id="high_score"> High Score: 0</span>
+		</div>
+		<span><button id="start_button">START GAME</button></span>		
 	</div>
 	
 	<!-- main container div -->
@@ -121,7 +125,8 @@ Bonus
 		var score = 0; //keeps track of score
 		var count = 0; //start loop index
 		var max_count = 10; //max loop index
-		var interval = 1000; // interval time is 1s
+		var interval = 1000; // interval time is 1 second
+		var high_score = 0;
 		
 		// Returns a random integer between min and max
 		// Using Math.round() will give you a non-uniform distribution!
@@ -164,6 +169,10 @@ Bonus
 			        $('.mole').hide();
 			        clearInterval(intervalId);
 			        alert('GAME OVER');
+			        high_score = score;
+			        if (high_score > high_score) {
+			        	$('#high_score').text('High Score: ' + high_score + ' pts');
+			        }			        
 			        //location.reload(); // reload page, possibly from cache
 			        $('#start_button').attr("disabled", false);
 		    	} //end of if 
