@@ -154,7 +154,7 @@ Bonus
 			$('#start_button').attr("disabled", true);
 			// get the start timestamp 
 			var start = Date.now();
-			//refresh the score 
+			//refresh the scoree 
         	$('#running_total').text('Score: '+score);        	
 			
 			intervalId = setInterval(function () {
@@ -186,7 +186,7 @@ Bonus
 			        count++; //increment count				        
 			        new_mole(); // create new mole						
 		    	} //end of else
-			}, interval;
+			}, interval);
     	}); //end of start button
 	</script>
 </body>
