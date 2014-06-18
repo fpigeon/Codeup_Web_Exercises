@@ -155,7 +155,7 @@ Bonus
         	var intervalId = null;
 			
 			intervalId = setInterval(function () {
-		    	if ((count >= max_count || elapsed >= RUNTIME)) {
+		    	if ((count >= max_count || elapsed >= RUNTIME) && intervalId != null) {
 			        //clear timer, counter, score
 			        console.log('met');				        
 			        elapsed = 0;
@@ -164,7 +164,7 @@ Bonus
 			        
 			        clearInterval(intervalId);
 			        alert('GAME OVER');
-			        //location.reload(); // reload page, possibly from cache
+			        location.reload(); // reload page, possibly from cache
 		    	} //end of if 
 		    	else {
 			        // get the end timestamp
