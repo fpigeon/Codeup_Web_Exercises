@@ -155,14 +155,8 @@ Bonus
         	$('#running_total').text('Score: '+score);        	
 			
 			intervalId = setInterval(function () {
-<<<<<<< HEAD
-		    	if ((count >= max_count || elapsed >= RUNTIME) && intervalId != null) {
-			        //clear timer, counter, score
-			        console.log('met');				        
-=======
 		    	if (count >= max_count || elapsed >= RUNTIME ) {
 			        //clear timer, counter, score			        
->>>>>>> 2a1fb387e23be059daf792739e054c8f86bc472d
 			        elapsed = 0;
 			        count = 0;
 			        score = 0;
@@ -170,12 +164,8 @@ Bonus
 			        $('.mole').hide();
 			        clearInterval(intervalId);
 			        alert('GAME OVER');
-<<<<<<< HEAD
-			        location.reload(); // reload page, possibly from cache
-=======
 			        //location.reload(); // reload page, possibly from cache
-			        $('#start_button').attr("disabled", false);
->>>>>>> 2a1fb387e23be059daf792739e054c8f86bc472d
+			        $('#start_button').attr("disabled", false);d
 		    	} //end of if 
 		    	else {
 			        // get the end timestamp
