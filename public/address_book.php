@@ -25,7 +25,7 @@ LucasArts,"P.O. Box 29901","San Francisco",CA,94129-0901,
 require_once ('classes/address_data_store.php');
 
 //iniitailize class
-$address_data_store1 = new AddressDataStore('data/address_book.csv');
+$address_data_store1 = new AddressDataStore('data/ADDRESS_BOOK.CSV');//testing address_data_store lower case
 
 //variables
 $address_book = []; // holds array for addresses
