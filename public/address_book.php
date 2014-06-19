@@ -57,13 +57,13 @@ function storeEntry($form_data){
 } //end of storeEntry
 
 //load from CSV file
-$address_book = $address_data_store1->read_csv($address_book);
+$address_book = $address_data_store1->read($address_book);
 
 //remove item from address array using GET
 if (isset($_GET['remove_item']) ){
 	 $removeItem = $_GET['remove_item'];	 
 	 unset($address_book[$removeItem]); //remove from todo array	 
-	 $address_data_store1->write_csv($address_book);
+	 $address_data_store1->write($address_book);
 	 header('Location: /address_book.php');
 	 exit(0);
 } //end of remove item
@@ -80,7 +80,7 @@ if(!empty($_POST)){
 			$new_address[] = $value;
 		} //end of foreach		
 		$address_book[] = $new_address;
-		$address_data_store1->write_csv($address_book);
+		$address_data_store1->write($address_book);
 		header('Location: /address_book.php');
 		exit(0);	
 	}  // end of valid input
@@ -100,11 +100,11 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
 	    //create new instance of for uploaded CSV
 		$address_data_store2 = new AddressDataStore($saved_filename);
 		//parse uploaded CSV and assign to $uploaded_address array
-		$uploaded_addreses = $address_data_store2->read_csv($uploaded_addreses);
+		$uploaded_addreses = $address_data_store2->read($uploaded_addreses);
 		//merge uploaded and local arrays
 		$address_book = array_merge($address_book, $uploaded_addreses);
 		//save to file
-		$address_data_store1->write_csv($address_book);	    
+		$address_data_store1->write($address_book);	    
 	} // end of if files are csv
     else{
     	$error_msg = 'Upload error: wrong file type. Must be .csv';
