@@ -44,22 +44,19 @@ function stringCheck ($string){
 
 function storeEntry($form_data){
 	$form_count = 0; //initiate variable to find out if there is form data missing
-	$msg = '';
-	//var_dump($form_data);
+	$msg = '';	
 	foreach ($form_data as $data) {
 		if (!empty($data)) {
 			//echo 'missing data';
-			stringCheck($data);
+			//stringCheck($data);
 			$form_count++;
 		} //end of if		
 	} //end of foreach	
-	
-	if ($form_count > 4) {
-		echo 'You have all your data' . PHP_EOL;		
+	if ($form_count > 4){	
 		return true;
 	} //end of if
 	else {
-		echo 'You are missing data' . PHP_EOL;
+		$error_msg = 'You are missing data';
 		return false;
 	} //end of else
 } //end of storeEntry
@@ -78,13 +75,14 @@ if (isset($_GET['remove_item']) ){
 
 //add new address from POST
 if(!empty($_POST)){
-	if ($isValid = storeEntry($_POST)) {
+	if(storeEntry($_POST)) {
 		if (empty($_POST['phone'])){
 			//array_pop($_POST);
 			$_POST['phone'] = '';
 		} //end of no phone
-		$new_address = [];		    
+		$new_address = [];				    
 		foreach ($_POST as $value) {
+			stringCheck($value);
 			$new_address[] = $value;
 		} //end of foreach		
 		$address_book[] = $new_address;
@@ -130,9 +128,10 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
 	<h1>Web Address Book</h1>
 	<!-- display error message if exists -->
 	<? if(!empty($error_msg)) : ?>
-		<h4>ERROR:</h4>
+		<h4>ERROR</h4>
 		<?= $error_msg . PHP_EOL;?>
 		<?= PHP_EOL;?>
+		<script>alert('Something went wrong, please try again');</script>
 	<? endif; ?>
 
 	<!-- output addresses on screen in a table -->
