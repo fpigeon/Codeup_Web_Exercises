@@ -35,6 +35,12 @@ $heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
 $isValid = false; //form validation
 $saved_file_items = [];//new array for uploaded address book
 
+function stringCheck ($string){
+	if (strlen($string) == 0 || strlen($string) > 125) {
+    			throw new Exception('$data must be over 0 or under 125 characters');
+    } // end of excepmtion   
+}
+
 function storeEntry($form_data){
 	$form_count = 0; //initiate variable to find out if there is form data missing
 	$msg = '';
@@ -42,9 +48,7 @@ function storeEntry($form_data){
 	foreach ($form_data as $data) {
 		if (!empty($data)) {
 			//echo 'missing data';
-			if (strlen($data) == 0 || strlen($data) > 125) {
-    			throw new Exception('$data must be over 0 or under 125 characters');
-    		} // end of excepmtion    
+			stringCheck($data);
 			$form_count++;
 		} //end of if		
 	} //end of foreach	
