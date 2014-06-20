@@ -35,11 +35,12 @@ $heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
 $isValid = false; //form validation
 $saved_file_items = [];//new array for uploaded address book
 
+//validate string to be over zero and under 125 characters
 function stringCheck ($string){
 	if (strlen($string) == 0 || strlen($string) > 125) {
     			throw new Exception('$data must be over 0 or under 125 characters');
     } // end of excepmtion   
-}
+}//end of stringCheck
 
 function storeEntry($form_data){
 	$form_count = 0; //initiate variable to find out if there is form data missing
