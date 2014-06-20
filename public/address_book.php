@@ -1,20 +1,5 @@
 <?php 
 /*
-1. Much like the address book in our example, you'll be creating an address book application 
-that stores entries in a CSV file on your computer. In the same fashion as your todo.php application,
- you will want to display your entries at the top of the page, and have a form below for adding new entries.
-  Each entry should take a name, address, city, state, zip, and phone.
-   You can use a HTML table or definition lists for displaying the addresses.
-
-2. Create a function to store a new entry. A new entry should have validate 5 required fields:
-name, address, city, state, and zip. Display error if each is not filled out.
-
-3. Use a CSV file to save to your list after each valid entry.
-
-4. Open the CSV file in a spreadsheet program or text editor and verify the contents are what you expect after adding some entries.
-
-5. Refactor your code to use functions where applicable.
-
 Original CSV will contain
 "The White House","1600 Pennsylvania Avenue NW",Washington,DC,20500,
 "Marvel Comics","P.O. Box 1527","Long Island City",NY,11101,
@@ -24,6 +9,8 @@ LucasArts,"P.O. Box 29901","San Francisco",CA,94129-0901,
 //include classes
 require_once ('classes/address_data_store.php');
 
+class InvaidInputException extends Exception { }
+
 //iniitailize class
 $address_data_store1 = new AddressDataStore('data/ADDRESS_BOOK.CSV');//testing address_data_store lower case
 
@@ -32,34 +19,15 @@ $address_book = []; // holds array for addresses
 $uploaded_addreses = []; //new array for uploaded files
 $error_msg=''; //initailize variable to hold error messages
 $heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
-$isValid = false; //form validation
 $saved_file_items = [];//new array for uploaded address book
+$isValid = false; //form validation
 
 //validate string to be over zero and under 125 characters
 function stringCheck ($string){
-	if (strlen($string) == 0 || strlen($string) > 125) {
-    			throw new Exception('$data must be over 0 or under 125 characters');
+	if (strlen($string) <= 1 || strlen($string) > 125) {
+    			throw new InvaidInputException('$string must be over 0 or under 125 characters');
     } // end of excepmtion   
 }//end of stringCheck
-
-function storeEntry($form_data){
-	$form_count = 0; //initiate variable to find out if there is form data missing
-	$msg = '';	
-	foreach ($form_data as $data) {
-		if (!empty($data)) {
-			//echo 'missing data';
-			//stringCheck($data);
-			$form_count++;
-		} //end of if		
-	} //end of foreach	
-	if ($form_count > 4){	
-		return true;
-	} //end of if
-	else {
-		$error_msg = 'You are missing data';
-		return false;
-	} //end of else
-} //end of storeEntry
 
 //load from CSV file
 $address_book = $address_data_store1->read($address_book);
@@ -75,22 +43,28 @@ if (isset($_GET['remove_item']) ){
 
 //add new address from POST
 if(!empty($_POST)){
-	if(storeEntry($_POST)) {
+	try{
+		//add a phone if not entered
 		if (empty($_POST['phone'])){
 			//array_pop($_POST);
-			$_POST['phone'] = '';
+			$_POST['phone'] = '999-999-9999';
 		} //end of no phone
-		$new_address = [];				    
-		foreach ($_POST as $value) {
+
+		//ensure form entries are not empty
+		foreach ($_POST as $key => $value) {				
 			stringCheck($value);
-			$new_address[] = $value;
-		} //end of foreach		
-		$address_book[] = $new_address;
-		$address_data_store1->write($address_book);
-		header('Location: /address_book.php');
-		exit(0);	
-	}  // end of valid input
-} //end of if empty
+		}  //end of foreach		
+		$address_book[] = $_POST; // add to array
+		$address_data_store1->write($address_book); //save file
+		header('Location: /address_book.php'); // reload the page
+		exit(0);
+		// }
+	} // end of try
+	catch(InvaidInputException $e){
+			echo "Exception: " . $e->getMessage();
+	} // end of catch				
+}// end of if
+
 
 //move uploaded files to the upload directory	
 if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
@@ -128,10 +102,9 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
 	<h1>Web Address Book</h1>
 	<!-- display error message if exists -->
 	<? if(!empty($error_msg)) : ?>
-		<h4>ERROR</h4>
-		<?= $error_msg . PHP_EOL;?>
-		<?= PHP_EOL;?>
 		<script>alert('Something went wrong, please try again');</script>
+		<?= $error_msg . PHP_EOL;?>
+		<?= PHP_EOL;?>		
 	<? endif; ?>
 
 	<!-- output addresses on screen in a table -->
