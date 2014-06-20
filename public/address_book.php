@@ -42,6 +42,9 @@ function storeEntry($form_data){
 	foreach ($form_data as $data) {
 		if (!empty($data)) {
 			//echo 'missing data';
+			if (strlen($data) == 0 || strlen($data) > 125) {
+    			throw new Exception('$data must be over 0 or under 125 characters');
+    		} // end of excepmtion    
 			$form_count++;
 		} //end of if		
 	} //end of foreach	
@@ -75,7 +78,7 @@ if(!empty($_POST)){
 			//array_pop($_POST);
 			$_POST['phone'] = '';
 		} //end of no phone
-		$new_address = [];    
+		$new_address = [];		    
 		foreach ($_POST as $value) {
 			$new_address[] = $value;
 		} //end of foreach		
