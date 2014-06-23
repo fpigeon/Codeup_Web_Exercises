@@ -9,7 +9,7 @@ LucasArts,"P.O. Box 29901","San Francisco",CA,94129-0901,
 //include classes
 require_once ('classes/address_data_store.php');
 
-class InvaidInputException extends Exception { }
+class InvalidInputException extends Exception { }
 
 //iniitailize class
 $address_data_store1 = new AddressDataStore('data/ADDRESS_BOOK.CSV');//testing address_data_store lower case
@@ -25,7 +25,7 @@ $isValid = false; //form validation
 //validate string to be over zero and under 125 characters
 function stringCheck ($string){
 	if (strlen($string) <= 1 || strlen($string) > 125) {
-    			throw new InvaidInputException('$string must be over 0 or under 125 characters');
+    			throw new InvalidInputException('$string must be over 0 or under 125 characters');
     } // end of excepmtion   
 }//end of stringCheck
 
@@ -60,8 +60,8 @@ if(!empty($_POST)){
 		exit(0);
 		// }
 	} // end of try
-	catch(InvaidInputException $e){
-			echo "Exception: " . $e->getMessage();
+	catch(InvalidInputException $e){
+			$error_msg = $e->getMessage().PHP_EOL;
 	} // end of catch				
 }// end of if
 
@@ -102,10 +102,9 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
 	<h1>Web Address Book</h1>
 	<!-- display error message if exists -->
 	<? if(!empty($error_msg)) : ?>
-		<script>alert('Something went wrong, please try again');</script>
-		<?= $error_msg . PHP_EOL;?>
-		<?= PHP_EOL;?>		
-	<? endif; ?>
+		<?= PHP_EOL . $error_msg . PHP_EOL;?>
+		<script>alert('Something went wrong, try again');</script>
+	<? endif; ?>	
 
 	<!-- output addresses on screen in a table -->
 	<table border="1">
