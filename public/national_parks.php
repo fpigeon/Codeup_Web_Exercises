@@ -48,7 +48,7 @@ $prevPage = $page - 1;
 if(!empty($_POST)){
 	try {
 		//ensure form entries are not empty
-		foreach ($_POST as $value) {				
+		foreach ($_POST as $value) {					
 			stringLengthCheck($value);
 		}  //end of foreach		
 
