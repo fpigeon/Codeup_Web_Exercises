@@ -1,6 +1,8 @@
 <?php 
+//constants
+define ('LIMIT_VALUE', 4);
 //variables
-$heading = ['ID', 'name', 'location', 'date established', 'area in acres'];
+$heading = ['ID', 'name', 'location', 'date established', 'area in acres', 'description' ];
 
 // Get new instance of PDO object
 $dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_pdo_test_db', 'frank', 'password');
@@ -14,12 +16,13 @@ function getOffset(){
 } //end of getOffset
 
 function getParks($dbc){
-	//OLD $stmt = $dbc->query('SELECT * FROM national_parks');
-	$stmt = $dbc->query('SELECT * 
-		FROM national_parks
-		LIMIT 4 OFFSET '. getOffset() );
-	$rows =  $stmt-> fetchALL(PDO::FETCH_ASSOC);
-	return $rows;
+	$stmt = $dbc->prepare('SELECT * FROM national_parks LIMIT :LIMIT OFFSET :OFFSET');
+	$stmt->bindValue(':LIMIT', LIMIT_VALUE, PDO::PARAM_INT);
+	$offset_value = getOffset();
+	$stmt->bindValue(':OFFSET', $offset_value, PDO::PARAM_INT);
+	$stmt->execute();
+	$rows =  $stmt->fetchALL(PDO::FETCH_ASSOC);	
+	return $rows;	
 } //end of getUsers
 
 //get all the national park table data into $parks array
