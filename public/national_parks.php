@@ -15,9 +15,9 @@ $dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_pdo_test_db', 'frank', 'passw
 $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //validate string to be over zero and under 125 characters
-function stringCheck ($string){
-	if (strlen($string) <= 1 || strlen($string) > 125) {
-    			throw new InvalidInputException('$string must be over 0 or under 125 characters');
+function stringLengthCheck($string, $min=1, $max=125){
+	if (strlen($string) <= $min || strlen($string) > $max) {
+    			throw new InvalidInputException('$string must be over '.$min.' or under '.$max.' characters');
     } // end of excepmtion   
 }//end of stringCheck
 
@@ -49,7 +49,7 @@ if(!empty($_POST)){
 	try {
 		//ensure form entries are not empty
 		foreach ($_POST as $value) {				
-			stringCheck($value);
+			stringLengthCheck($value);
 		}  //end of foreach		
 
 		// Get new instance of PDO object
@@ -133,9 +133,9 @@ if(!empty($_POST)){
 		</div>	
 	</div>
 
-	<div id="form area" class="container">
+	<div class="form-group container">
 		<h2>Input New Park</h2>
-		<form method="POST" action="/national_parks.php">		
+		<form role="form" method="POST" action="/national_parks.php">		
 	        <label for="name">Name</label>
 	        <input id="name" name="name" type="text" placeholder="Park Name" value= "<?=(!$isValid && !empty($_POST['name']) ? $_POST['name'] : $POST['name'] = '') ?>">        
 	        <br>
@@ -154,10 +154,10 @@ if(!empty($_POST)){
 
 	        <label for="description">Description</label>
 	        <br>
-	        <textarea name="description" id="description" cols="30" rows="10"
+	        <textarea name="description" id="description" class="form-control" rows="5"
 	        value= "<?=(!$isValid && !empty($_POST['zip']) ? $_POST['zip'] : $POST['zip'] = '') ?>">Park Description</textarea>	        
 	        <br>	        
-	        <button type="submit">Add Park</button>
+	        <button class="btn btn-primary" type="submit">Add Park</button>
 		</form>
 	</div>
 	
