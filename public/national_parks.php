@@ -3,6 +3,7 @@
 define ('LIMIT_VALUE', 4);
 //variables
 $heading = ['ID', 'name', 'location', 'date established', 'area in acres', 'description' ];
+$isValid = false; //form validation
 
 // Get new instance of PDO object
 $dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_pdo_test_db', 'frank', 'password');
@@ -32,6 +33,26 @@ $numPages = ceil($count / 4);
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $nextPage = $page + 1;
 $prevPage = $page - 1;
+
+//add new address from POST
+if(!empty($_POST)){
+	// Get new instance of PDO object
+	$dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_pdo_test_db', 'frank', 'password');
+
+	// Tell PDO to throw exceptions on error
+	$dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$stmt = $dbc->prepare('INSERT INTO national_parks (name, location, date_established, area_in_acres, description)
+                       VALUES (:name, :location, :date_established, :area_in_acres, :description)');
+	
+    $stmt->bindValue(':name', $_POST['name'], PDO::PARAM_STR);
+    $stmt->bindValue(':location', $_POST['location'], PDO::PARAM_STR);
+    $stmt->bindValue(':date_established', $_POST['date_established'], PDO::PARAM_STR);
+    $stmt->bindValue(':area_in_acres', $_POST['area_in_acres'], PDO::PARAM_INT);
+    $stmt->bindValue(':description', $_POST['description'], PDO::PARAM_STR);    
+
+    $stmt->execute();    
+	
+}// end of if
 ?>
 
 <!DOCTYPE html>
@@ -83,6 +104,34 @@ $prevPage = $page - 1;
 				<a class="btn btn-primary btn-lg active" href="?page=<?= $nextPage; ?>" >Next &rarr;</a>
 			<? endif; ?>
 		</div>	
+	</div>
+
+	<div id="form area" class="container">
+		<h2>Input New Park</h2>
+		<form method="POST" action="/national_parks.php">		
+	        <label for="name">Name</label>
+	        <input id="name" name="name" type="text" placeholder="Park Name" value= "<?=(!$isValid && !empty($_POST['name']) ? $_POST['name'] : $POST['name'] = '') ?>">        
+	        <br>
+
+			<label for="address">Location</label>
+	        <input id="location" name="location" type="text" placeholder="Park Location" value= "<?=(!$isValid && !empty($_POST['location']) ? $_POST['location'] : $POST['location'] = '') ?>">
+        	<br>
+
+	        <label for="date_established">Date Established</label>
+	        <input id="date_established" name="date_established" type="date" placeholder="YYYY-MM-DD" value= "<?=(!$isValid && !empty($_POST['date_established']) ? $_POST['date_established'] : $POST['date_established'] = '') ?>">
+	        <br>
+
+	        <label for="area_in_acres">Area in Acres</label>
+	        <input id="area_in_acres" name="area_in_acres" type="float" placeholder="area_in_acres" value= "<?=(!$isValid && !empty($_POST['area_in_acres']) ? $_POST['area_in_acres'] : $POST['area_in_acres'] = '') ?>">
+	        <br>
+
+	        <label for="description">Description</label>
+	        <br>
+	        <textarea name="description" id="description" cols="30" rows="10"
+	        value= "<?=(!$isValid && !empty($_POST['zip']) ? $_POST['zip'] : $POST['zip'] = '') ?>">Park Description</textarea>	        
+	        <br>	        
+	        <button type="submit">Add Park</button>
+		</form>
 	</div>
 	
 </body>
