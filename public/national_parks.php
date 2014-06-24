@@ -47,7 +47,7 @@ $prevPage = $page - 1;
 <body>
 	<div class="container">
 		<h1>National Parks</h1>
-		<table border="1">
+		<table border="">
 			<!-- heading row -->
 			<tr>			
 				<? foreach ($heading as $value) :?>
@@ -68,10 +68,10 @@ $prevPage = $page - 1;
 			<? if ($page == 1) : ?>
 				<a class="disabled" href="?page=<?= $prevPage; ?>" > &larr; Previous</a>
 				<a href="?page=<?= $nextPage; ?>" >Next &rarr;</a>		
-			<? elseif ($page == $numPages) : ?>
+			<? elseif($page == $numPages) : ?>
 				<a href="?page=<?= $prevPage; ?>" > &larr; Previous</a>
 				<a <a class="disabled" href="?page=<?= $nextPage; ?>" >Next &rarr;</a>		
-			<? else: ?>
+			<? else : ?>
 				<a href="?page=<?= $prevPage; ?>" > &larr; Previous</a>
 				<a href="?page=<?= $nextPage; ?>" >Next &rarr;</a>	
 			<? endif; ?>
