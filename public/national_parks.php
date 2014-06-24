@@ -1,15 +1,25 @@
 <?php 
+//classes
+class InvalidInputException extends Exception { }
 //constants
 define ('LIMIT_VALUE', 4);
 //variables
 $heading = ['ID', 'name', 'location', 'date established', 'area in acres', 'description' ];
 $isValid = false; //form validation
+$error_msg=''; //initailize variable to hold error messages
 
 // Get new instance of PDO object
 $dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_pdo_test_db', 'frank', 'password');
 
 // Tell PDO to throw exceptions on error
 $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+//validate string to be over zero and under 125 characters
+function stringCheck ($string){
+	if (strlen($string) <= 1 || strlen($string) > 125) {
+    			throw new InvalidInputException('$string must be over 0 or under 125 characters');
+    } // end of excepmtion   
+}//end of stringCheck
 
 function getOffset(){
 	$page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -36,21 +46,32 @@ $prevPage = $page - 1;
 
 //add new address from POST
 if(!empty($_POST)){
-	// Get new instance of PDO object
-	$dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_pdo_test_db', 'frank', 'password');
+	try {
+		//ensure form entries are not empty
+		foreach ($_POST as $value) {				
+			stringCheck($value);
+		}  //end of foreach		
 
-	// Tell PDO to throw exceptions on error
-	$dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$stmt = $dbc->prepare('INSERT INTO national_parks (name, location, date_established, area_in_acres, description)
-                       VALUES (:name, :location, :date_established, :area_in_acres, :description)');
+		// Get new instance of PDO object
+		$dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_pdo_test_db', 'frank', 'password');
+
+		// Tell PDO to throw exceptions on error
+		$dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$stmt = $dbc->prepare('INSERT INTO national_parks (name, location, date_established, area_in_acres, description)
+	                       VALUES (:name, :location, :date_established, :area_in_acres, :description)');
+		
+	    $stmt->bindValue(':name', $_POST['name'], PDO::PARAM_STR);
+	    $stmt->bindValue(':location', $_POST['location'], PDO::PARAM_STR);
+	    $stmt->bindValue(':date_established', $_POST['date_established'], PDO::PARAM_STR);
+	    $stmt->bindValue(':area_in_acres', $_POST['area_in_acres'], PDO::PARAM_INT);
+	    $stmt->bindValue(':description', $_POST['description'], PDO::PARAM_STR);    
+
+	    $stmt->execute();    
+	} //end of try
+	catch (InvalidInputException $e) {
+		$error_msg = $e->getMessage().PHP_EOL;
+	} // end of catch
 	
-    $stmt->bindValue(':name', $_POST['name'], PDO::PARAM_STR);
-    $stmt->bindValue(':location', $_POST['location'], PDO::PARAM_STR);
-    $stmt->bindValue(':date_established', $_POST['date_established'], PDO::PARAM_STR);
-    $stmt->bindValue(':area_in_acres', $_POST['area_in_acres'], PDO::PARAM_INT);
-    $stmt->bindValue(':description', $_POST['description'], PDO::PARAM_STR);    
-
-    $stmt->execute();    
 	
 }// end of if
 ?>
@@ -76,6 +97,12 @@ if(!empty($_POST)){
 <body>
 	<div class="container">
 		<h1>National Parks</h1>
+		<!-- display error message if exists -->
+		<? if(!empty($error_msg)) : ?>
+			<?= PHP_EOL . $error_msg . PHP_EOL;?>
+			<script>alert('Something went wrong, try again');</script>
+		<? endif; ?>	
+		
 		<table class="table table-striped table-hover">
 			<!-- heading row -->
 			<tr>			
