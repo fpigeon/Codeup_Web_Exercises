@@ -36,18 +36,23 @@ $prevPage = $page - 1;
 <head>
 	<meta charset="UTF-8">
 	<title>National Parks</title>
-	<style>	
-	.disabled{
-		pointer-events: none;
-		cursor: default;
-	}
-	</style>
+	<!-- JQuery -->	
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
 	
 </head>
 <body>
 	<div class="container">
 		<h1>National Parks</h1>
-		<table border="1">
+		<table class="table table-striped table-hover">
 			<!-- heading row -->
 			<tr>			
 				<? foreach ($heading as $value) :?>
@@ -61,19 +66,18 @@ $prevPage = $page - 1;
 					<td> <?= $park_value ?> </td>													
 				<? endforeach;  ?>			
 			</tr>				
-			<? endforeach; ?>		
-				
+			<? endforeach; ?>				
 		</table>
 		<div id="pagination">
 			<? if ($page == 1) : ?>
-				<a class="disabled" href="?page=<?= $prevPage; ?>" > &larr; Previous</a>
-				<a href="?page=<?= $nextPage; ?>" >Next &rarr;</a>		
+				<a class="btn-primary btn btn-lg" disabled="disabled" href="?page=<?= $prevPage; ?>" > &larr; Previous</a>
+				<a class="btn btn-primary btn-lg active" href="?page=<?= $nextPage; ?>" >Next &rarr;</a>		
 			<? elseif ($page == $numPages) : ?>
-				<a href="?page=<?= $prevPage; ?>" > &larr; Previous</a>
-				<a <a class="disabled" href="?page=<?= $nextPage; ?>" >Next &rarr;</a>		
+				<a class="btn btn-primary btn-lg active" href="?page=<?= $prevPage; ?>" > &larr; Previous</a>
+				<a class="btn-primary btn btn-lg" disabled="disabled" href="?page=<?= $nextPage; ?>" >Next &rarr;</a>		
 			<? else: ?>
-				<a href="?page=<?= $prevPage; ?>" > &larr; Previous</a>
-				<a href="?page=<?= $nextPage; ?>" >Next &rarr;</a>	
+				<a class="btn btn-primary btn-lg active" href="?page=<?= $prevPage; ?>" > &larr; Previous</a>
+				<a class="btn btn-primary btn-lg active" href="?page=<?= $nextPage; ?>" >Next &rarr;</a>	
 			<? endif; ?>
 		</div>	
 	</div>
