@@ -28,40 +28,46 @@ $dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_addressBook_db', 'frank', 'pa
 // Tell PDO to throw exceptions on error
 $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-echo $dbc->getAttribute(PDO::ATTR_CONNECTION_STATUS) . "\n";
+//echo $dbc->getAttribute(PDO::ATTR_CONNECTION_STATUS) . "\n";
 
-// Create the query to create table for names
-$query = 'CREATE TABLE names (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    phone VARCHAR(12),
-    PRIMARY KEY (id)
-)';
-// Run query, if there are errors they will be thrown as PDOExceptions
-$dbc->exec($query);
+// // Create the query to create table for names
+// $query = 'CREATE TABLE contact (
+//     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+//     name VARCHAR(50) NOT NULL,    
+//     phone CHAR(12),
+//     PRIMARY KEY (id)
+// )';
+// // Run query, if there are errors they will be thrown as PDOExceptions
+// $dbc->exec($query);
 
-// Create the query to create table for addresses
-$query = 'CREATE TABLE addresses (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    address VARCHAR(50) NOT NULL,
-    city VARCHAR(50) NOT NULL,
-    state VARCHAR(2) NOT NULL,
-    zip VARCHAR(5) NOT NULL,    
-    PRIMARY KEY (id)
-)';
-// Run query, if there are errors they will be thrown as PDOExceptions
-$dbc->exec($query);
+// // Create the query to create table for addresses
+// $query = 'CREATE TABLE addresses (
+//     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+//     address VARCHAR(50) NOT NULL,
+//     city VARCHAR(50) NOT NULL,
+//     state CHAR(2) NOT NULL,
+//     zip CHAR(5) NOT NULL,    
+//     PRIMARY KEY (id)
+// )';
+// // Run query, if there are errors they will be thrown as PDOExceptions
+// $dbc->exec($query);
 
-$query = 'CREATE TABLE names_addresses_mapping (
-  name_id INT(10) UNSIGNED DEFAULT NULL,
-  address_id INT(10) UNSIGNED DEFAULT NULL,
-  FOREIGN KEY (name_id) REFERENCES names (id),
-  FOREIGN KEY (address_id) REFERENCES addresses (id)
-)';
-$dbc->exec($query);
+// $query = 'CREATE TABLE names_addresses_mapping (
+//   contact_id INT(10) UNSIGNED DEFAULT NULL,
+//   address_id INT(10) UNSIGNED DEFAULT NULL,  
+//   PRIMARY KEY (contact_id, address_id),
+//   FOREIGN KEY (contact_id) REFERENCES contact (id) ON DELETE CASCADE,  
+//   FOREIGN KEY (address_id) REFERENCES addresses (id) ON DELETE CASCADE
+// )';
+// $dbc->exec($query);
 
-function getNames($dbc){
-	$stmt = $dbc->prepare('SELECT * FROM todos LIMIT :LIMIT OFFSET :OFFSET');
+function getOffset(){
+	$page = isset($_GET['page']) ? $_GET['page'] : 1;
+	return ($page - 1) * LIMIT_VALUE;
+} //end of getOffset
+
+function getContact($dbc){
+	$stmt = $dbc->prepare('SELECT * FROM contact LIMIT :LIMIT OFFSET :OFFSET');
 	$stmt->bindValue(':LIMIT', LIMIT_VALUE, PDO::PARAM_INT);
 	$offset_value = getOffset();
 	$stmt->bindValue(':OFFSET', $offset_value, PDO::PARAM_INT);
@@ -69,6 +75,54 @@ function getNames($dbc){
 	$rows =  $stmt->fetchALL(PDO::FETCH_ASSOC);	
 	return $rows;	
 } //end of getNames
+
+//Check if something Posted
+if(!empty($_POST)){		
+	try {
+		// Get new instance of PDO object
+		$dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_addressBook_db', 'frank', 'password');
+
+		// Tell PDO to throw exceptions on error
+		$dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		
+		//a. is item being added => add todo!
+		if (isset($_POST['task'])){
+			//ensure form entries are not empty or over 125 chars			
+			stringLengthCheck($_POST['task']);
+
+			$stmt = $dbc->prepare('INSERT INTO todos (task)
+	                       VALUES (:task)');		
+		    $stmt->bindValue(':task', $_POST['task'], PDO::PARAM_STR);
+		    $stmt->execute();
+		    header('Location: /todo_list_db.php');
+			exit(0);	
+		} //end if POST addForm
+
+		//b. is item being removed => remove todo
+		if (isset($_POST['remove'])){
+			$stmt = $dbc->prepare('DELETE FROM contact WHERE id = :ID');		
+		    $stmt->bindValue(':ID', $_POST['remove'], PDO::PARAM_INT);
+		    $stmt->execute();
+		 	//header('Location: /todo_list_db.php');
+			//exit(0);
+		} // end of if POST remove
+	} //end of try
+	catch (InvalidInputException $e) {
+		$error_msg = $e->getMessage().PHP_EOL;
+	} // end of catch
+}// end of if
+
+//Query db for total contact count
+$count = $dbc->query('SELECT count(*) FROM contact')->fetchColumn();
+
+//Determine pagination values
+$numPages = ceil($count / LIMIT_VALUE);
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$nextPage = $page + 1;
+$prevPage = $page - 1;
+
+//Query for todos on current page
+$contacts = getContact($dbc);
 //----------------FROM CHRIS'S SNIPPLET--------------------------------------------------------//
 ?>
 
@@ -78,49 +132,42 @@ function getNames($dbc){
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 </head>
 <body>
-
 <div class="container">
-
 	<h1>Address Book: Contacts</h1>
+	<!-- error message if present --> 
+		<? if(!empty($error_msg)) : ?>
+			<?= PHP_EOL . $error_msg . PHP_EOL;?>
+			<script>alert('Something went wrong, try again');</script>
+		<? endif; ?>	
 
-	<table class="table table-striped">
+	<table class="table table-striped">		
+		<!-- heading for table -->
 		<tr>
-			<th>Id</th>
-			<th>Name</th>
-			<th>Phone Number</th>
-			<th># of Addresss</th>
-			<th>Actions</th>
+			<? foreach ($heading as $value) :?>
+				<th><?= $value ?> </th>								
+			<? endforeach;  ?>			
 		</tr>
-		<tr>
-			<td>1</td>
-			<td>Chris</td>
-			<td>555-555-5555</td>
-			<td>2</td>
-			<td>
-				<a class="btn btn-small btn-default" href="contact_addresses.php?contact_id=1">View</a>
-				<button class="btn btn-small btn-danger btn-remove" data-contact="1">Remove</button>
-			</td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>Frank</td>
-			<td>555-555-5555</td>
-			<td>1</td>
-			<td>
-				<a class="btn btn-small btn-default" href="contact_addresses.php?contact_id=2">View</a>
-				<button class="btn btn-small btn-danger btn-remove" data-contact="2">Remove</button>
-			</td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>Greg</td>
-			<td>555-555-5555</td>
-			<td>4</td>
-			<td>
-				<a class="btn btn-small btn-default" href="contact_addresses.php?contact_id=3">View</a>
-				<button class="btn btn-small btn-danger btn-remove" data-contact="3">Remove</button>
-			</td>
-		</tr>
+		
+		<!-- data from table -->
+		<? foreach ($contacts as $contact) :?>
+			<tr>				
+				<? foreach ($contact as $key => $contact_value): ?>
+					<?= "<td>$contact_value</td>"; ?>					
+				<? endforeach; ?>
+				<!-- number of addresses -->
+				<td>
+					1
+				</td>
+				<!-- action buttons -->
+				<td>	
+					<a class="btn btn-small btn-default" href="contact_addresses.php?contact_id=1">View</a>
+					<button class="btn btn-small btn-danger btn-remove" 
+						data-contactid="<?= $contact['id']; ?>"
+						data-contactname="<?= $contact['name']; ?>">Remove</button>
+
+				</td>
+			</tr>
+		<? endforeach; ?>	
 	</table>
 
 	<div class="clearfix"></div>
@@ -149,8 +196,9 @@ function getNames($dbc){
 <script>
 
 $('.btn-remove').click(function () {
-	var contactId = $(this).data('contact');
-	if (confirm('Are you sure you want to remove contact ' + contactId + '?')) {
+	var contactName = $(this).data('contactname');
+	var contactId = $(this).data('contactid');
+	if (confirm('Are you sure you want to remove contact ' + contactName + '?')) {
 		$('#remove-id').val(contactId);
 		$('#remove-form').submit();
 	}
