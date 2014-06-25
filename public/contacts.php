@@ -17,7 +17,7 @@ class InvalidInputException extends Exception { }
 //constants
 define ('LIMIT_VALUE', 10);
 //variables 
-$heading = ['id','name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
+$heading = ['Id','Name', 'Phone Number', '# of Addresses', 'Actions'];
 $isValid = false; //form validation
 $error_msg=''; //initailize variable to hold error messages
 
@@ -28,12 +28,13 @@ $dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_addressBook_db', 'frank', 'pa
 // Tell PDO to throw exceptions on error
 $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-//echo $dbc->getAttribute(PDO::ATTR_CONNECTION_STATUS) . "\n";
+echo $dbc->getAttribute(PDO::ATTR_CONNECTION_STATUS) . "\n";
 
 // Create the query to create table for names
 $query = 'CREATE TABLE names (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,    
+    name VARCHAR(50) NOT NULL,
+    phone VARCHAR(12),
     PRIMARY KEY (id)
 )';
 // Run query, if there are errors they will be thrown as PDOExceptions
@@ -46,7 +47,6 @@ $query = 'CREATE TABLE addresses (
     city VARCHAR(50) NOT NULL,
     state VARCHAR(2) NOT NULL,
     zip VARCHAR(5) NOT NULL,    
-    phone VARCHAR(10),
     PRIMARY KEY (id)
 )';
 // Run query, if there are errors they will be thrown as PDOExceptions
@@ -60,7 +60,7 @@ $query = 'CREATE TABLE names_addresses_mapping (
 )';
 $dbc->exec($query);
 
-function getTodos($dbc){
+function getNames($dbc){
 	$stmt = $dbc->prepare('SELECT * FROM todos LIMIT :LIMIT OFFSET :OFFSET');
 	$stmt->bindValue(':LIMIT', LIMIT_VALUE, PDO::PARAM_INT);
 	$offset_value = getOffset();
@@ -68,154 +68,95 @@ function getTodos($dbc){
 	$stmt->execute();
 	$rows =  $stmt->fetchALL(PDO::FETCH_ASSOC);	
 	return $rows;	
-} //end of getTodos
-
-//----------------FROM OLD ADDRESS BOOK--------------------------------------------------------//
-//variables
-$address_book = []; // holds array for addresses
-$uploaded_addreses = []; //new array for uploaded files
-$error_msg=''; //initailize variable to hold error messages
-$heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
-$saved_file_items = [];//new array for uploaded address book
-$isValid = false; //form validation
-
-//validate string to be over zero and under 125 characters
-function stringCheck ($string){
-	if (strlen($string) <= 1 || strlen($string) > 125) {
-    			throw new InvalidInputException('$string must be over 0 or under 125 characters');
-    } // end of excepmtion   
-}//end of stringCheck
-
-//load from CSV file
-$address_book = $address_data_store1->read($address_book);
-
-//remove item from address array using GET
-if (isset($_GET['remove_item']) ){
-	 $removeItem = $_GET['remove_item'];	 
-	 unset($address_book[$removeItem]); //remove from todo array	 
-	 $address_data_store1->write($address_book);
-	 header('Location: /address_book.php');
-	 exit(0);
-} //end of remove item
-
-//add new address from POST
-if(!empty($_POST)){
-	try{
-		//add a phone if not entered
-		if (empty($_POST['phone'])){
-			//array_pop($_POST);
-			$_POST['phone'] = '999-999-9999';
-		} //end of no phone
-
-		//ensure form entries are not empty
-		foreach ($_POST as $key => $value) {				
-			stringCheck($value);
-		}  //end of foreach		
-		$address_book[] = $_POST; // add to array
-		$address_data_store1->write($address_book); //save file
-		header('Location: /address_book.php'); // reload the page
-		exit(0);
-		// }
-	} // end of try
-	catch(InvalidInputException $e){
-			$error_msg = $e->getMessage().PHP_EOL;
-	} // end of catch				
-}// end of if
-
-
-//move uploaded files to the upload directory	
-if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
-	if ($_FILES['file1']['type'] == 'text/csv'){
-		$upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
-	    // Grab the filename from the uploaded file by using basename
-	    $filename = basename($_FILES['file1']['name']);
-	    // Create the saved filename using the file's original name and our upload directory
-	    $saved_filename = $upload_dir . $filename;
-	    // Move the file from the temp location to our uploads directory
-	    move_uploaded_file($_FILES['file1']['tmp_name'], $saved_filename);
-
-	    //create new instance of for uploaded CSV
-		$address_data_store2 = new AddressDataStore($saved_filename);
-		//parse uploaded CSV and assign to $uploaded_address array
-		$uploaded_addreses = $address_data_store2->read($uploaded_addreses);
-		//merge uploaded and local arrays
-		$address_book = array_merge($address_book, $uploaded_addreses);
-		//save to file
-		$address_data_store1->write($address_book);	    
-	} // end of if files are csv
-    else{
-    	$error_msg = 'Upload error: wrong file type. Must be .csv';
-    }  // end of not csv type
-} //end of if something was uploaded
-
+} //end of getNames
+//----------------FROM CHRIS'S SNIPPLET--------------------------------------------------------//
 ?>
- <!doctype html>
- <html lang="en">
- <head>
- 	<meta charset="UTF-8">
- 	<title>Address Book</title>
- </head>
- <body>
-	<h1>Web Address Book</h1>
-	<!-- display error message if exists -->
-	<? if(!empty($error_msg)) : ?>
-		<?= PHP_EOL . $error_msg . PHP_EOL;?>
-		<script>alert('Something went wrong, try again');</script>
-	<? endif; ?>	
 
-	<!-- output addresses on screen in a table -->
-	<table border="1">
-		<tr>			
-			<? foreach ($heading as $value) :?>
-				<th><?= $value ?> </th>								
-			<? endforeach;  ?>			
-		</tr>			
-		<? foreach ($address_book as $key => $address) :?>
-			<tr>								
-			<? foreach ($address as $value) :?>
-				<!-- sanitize user input -->
-				<? $value = htmlspecialchars(strip_tags($value)); ?>
-				<td> <?= $value ?> </td>													
-			<? endforeach;  ?>
-			<td><?= "<a href=\"?remove_item=$key\">Remove Address</a>"; ?></td> 									
-			</tr>				
-		<? endforeach; ?>		
+<html>
+<head>
+	<title>Address Book: Contacts</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+
+	<h1>Address Book: Contacts</h1>
+
+	<table class="table table-striped">
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Phone Number</th>
+			<th># of Addresss</th>
+			<th>Actions</th>
+		</tr>
+		<tr>
+			<td>1</td>
+			<td>Chris</td>
+			<td>555-555-5555</td>
+			<td>2</td>
+			<td>
+				<a class="btn btn-small btn-default" href="contact_addresses.php?contact_id=1">View</a>
+				<button class="btn btn-small btn-danger btn-remove" data-contact="1">Remove</button>
+			</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>Frank</td>
+			<td>555-555-5555</td>
+			<td>1</td>
+			<td>
+				<a class="btn btn-small btn-default" href="contact_addresses.php?contact_id=2">View</a>
+				<button class="btn btn-small btn-danger btn-remove" data-contact="2">Remove</button>
+			</td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td>Greg</td>
+			<td>555-555-5555</td>
+			<td>4</td>
+			<td>
+				<a class="btn btn-small btn-default" href="contact_addresses.php?contact_id=3">View</a>
+				<button class="btn btn-small btn-danger btn-remove" data-contact="3">Remove</button>
+			</td>
+		</tr>
 	</table>
 
-	<h2>Input New Address</h2>
-	<form method="POST" action="/address_book.php">		
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" placeholder="Address Name" value= "<?=(!$isValid && !empty($_POST['name']) ? $_POST['name'] : $POST['name'] = '') ?>">        
-        <br>
+	<div class="clearfix"></div>
 
-		<label for="address">Address</label>
-        <input id="address" name="address" type="text" placeholder="Street Address"  value= "<?=(!$isValid && !empty($_POST['address']) ? $_POST['address'] : $POST['address'] = '') ?>">
-        <br>
-
-        <label for="city">City</label>
-        <input id="city" name="city" type="text" placeholder="City" value= "<?=(!$isValid && !empty($_POST['city']) ? $_POST['city'] : $POST['city'] = '') ?>">
-        <br>
-
-        <label for="state">State</label>
-        <input id="state" name="state" type="text" placeholder="State" value= "<?=(!$isValid && !empty($_POST['state']) ? $_POST['state'] : $POST['state'] = '') ?>">
-        <br>
-
-        <label for="zip">Zip</label>
-        <input id="zip" name="zip" type="number" placeholder="Zip Code" value= "<?=(!$isValid && !empty($_POST['zip']) ? $_POST['zip'] : $POST['zip'] = '') ?>">
-        <br>
-
-        <label for="phone">Phone</label>
-        <input id="phone" name="phone" type="tel" placeholder="Phone Number" value= "<?=(!$isValid && !empty($_POST['phone']) ? $_POST['phone'] : $POST['phone'] = '') ?>">
-        <br>
-        <button type="submit">Add Address</button>
+	<h2>Add New Contact</h2>
+	<form class="form-inline" role="form" action="contact.php" method="POST">
+		<div class="form-group">
+			<label class="sr-only" for="name">Name</label>
+			<input type="text" name="name" id="name" class="form-control" placeholder="Name">
+		</div>
+		<div class="form-group">
+			<label class="sr-only" for="phone_number">Phone #</label>
+			<input type="text" name="phone_number" id="phone_number" class="form-control" placeholder="Phone #">
+		</div>
+		<button type="submit" class="btn btn-default btn-success">Add Contact</button>
 	</form>
 
-	<h2>Upload File</h2>
-	<form method="POST" enctype="multipart/form-data">
-	    <label for="file1">File to upload: </label>
-	    <input type="file" id="file1" name="file1">
-		<br>
-	    <input type="submit" value="Upload">    
-	</form>	
- </body>
- </html>
+</div>
+
+<form id="remove-form" action="contacts.php" method="post">
+	<input id="remove-id" type="hidden" name="remove" value="">
+</form>
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+ <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script>
+
+$('.btn-remove').click(function () {
+	var contactId = $(this).data('contact');
+	if (confirm('Are you sure you want to remove contact ' + contactId + '?')) {
+		$('#remove-id').val(contactId);
+		$('#remove-form').submit();
+	}
+});
+
+</script>
+
+</body>
+</html>
