@@ -20,20 +20,41 @@ $error_msg=''; //initailize variable to hold error messages
 
 // Establish DB Connection
 // Get new instance of PDO object
-$dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_todo_db', 'frank', 'password');
+$dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_addressBook_db', 'frank', 'password');
 
 // Tell PDO to throw exceptions on error
 $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //echo $dbc->getAttribute(PDO::ATTR_CONNECTION_STATUS) . "\n";
 
-// Create the query and assign to var
-$query = 'CREATE TABLE todos (
+// Create the query to create table for names
+$query = 'CREATE TABLE names (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    task VARCHAR(50) NOT NULL,    
+    name VARCHAR(50) NOT NULL,    
     PRIMARY KEY (id)
 )';
 // Run query, if there are errors they will be thrown as PDOExceptions
+$dbc->exec($query);
+
+// Create the query to create table for addresses
+$query = 'CREATE TABLE addresses (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    address VARCHAR(50) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    state VARCHAR(2) NOT NULL,
+    zip VARCHAR(20) NOT NULL,
+    phone VARCHAR(20),
+    PRIMARY KEY (id)
+)';
+// Run query, if there are errors they will be thrown as PDOExceptions
+$dbc->exec($query);
+
+$query = 'CREATE TABLE names_addresses_mapping (
+  name_id int(10) unsigned DEFAULT NULL,
+  address_id int(10) unsigned DEFAULT NULL,
+  FOREIGN KEY (name_id) REFERENCES names (id),
+  FOREIGN KEY (address_id) REFERENCES addresses (id)
+)';
 $dbc->exec($query);
 
 function getTodos($dbc){
