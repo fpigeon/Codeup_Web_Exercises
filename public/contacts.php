@@ -61,6 +61,13 @@ $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // )';
 // $dbc->exec($query);
 
+//validate string to be over zero and under 125 characters
+function stringLengthCheck($string, $min=1, $max=125){
+	if (strlen($string) <= $min || strlen($string) > $max) {
+    			throw new InvalidInputException('$string must be over '.$min.' or under '.$max.' characters');
+    } // end of excepmtion   
+}//end of stringCheck
+
 function getOffset(){
 	$page = isset($_GET['page']) ? $_GET['page'] : 1;
 	return ($page - 1) * LIMIT_VALUE;
@@ -86,16 +93,17 @@ if(!empty($_POST)){
 		$dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		
 		//a. is item being added => add todo!
-		if (isset($_POST['task'])){
+		if (isset($_POST['name'])){
 			//ensure form entries are not empty or over 125 chars			
-			stringLengthCheck($_POST['task']);
-
-			$stmt = $dbc->prepare('INSERT INTO todos (task)
-	                       VALUES (:task)');		
-		    $stmt->bindValue(':task', $_POST['task'], PDO::PARAM_STR);
+			stringLengthCheck($_POST['name']);
+			stringLengthCheck($_POST['phone_number']);
+			$stmt = $dbc->prepare('INSERT INTO contact (name, phone)
+	                       VALUES (:name, :phone)');		
+		    $stmt->bindValue(':name', $_POST['name'], PDO::PARAM_STR);
+		    $stmt->bindValue(':phone', $_POST['phone_number'], PDO::PARAM_STR);
 		    $stmt->execute();
-		    header('Location: /todo_list_db.php');
-			exit(0);	
+		    //header('Location: /todo_list_db.php');
+			//exit(0);	
 		} //end if POST addForm
 
 		//b. is item being removed => remove todo
@@ -173,7 +181,7 @@ $contacts = getContact($dbc);
 	<div class="clearfix"></div>
 
 	<h2>Add New Contact</h2>
-	<form class="form-inline" role="form" action="contact.php" method="POST">
+	<form class="form-inline" role="form" action="contacts.php" method="POST">
 		<div class="form-group">
 			<label class="sr-only" for="name">Name</label>
 			<input type="text" name="name" id="name" class="form-control" placeholder="Name">
