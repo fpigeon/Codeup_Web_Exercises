@@ -50,8 +50,8 @@ $query = 'CREATE TABLE addresses (
 $dbc->exec($query);
 
 $query = 'CREATE TABLE names_addresses_mapping (
-  name_id int(10) unsigned DEFAULT NULL,
-  address_id int(10) unsigned DEFAULT NULL,
+  name_id INT(10) UNSIGNED DEFAULT NULL,
+  address_id INT(10) UNSIGNED DEFAULT NULL,
   FOREIGN KEY (name_id) REFERENCES names (id),
   FOREIGN KEY (address_id) REFERENCES addresses (id)
 )';
