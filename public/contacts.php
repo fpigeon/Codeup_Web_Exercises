@@ -30,35 +30,35 @@ $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //echo $dbc->getAttribute(PDO::ATTR_CONNECTION_STATUS) . "\n";
 
-// // Create the query to create table for names
-// $query = 'CREATE TABLE names (
-//     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-//     name VARCHAR(50) NOT NULL,    
-//     PRIMARY KEY (id)
-// )';
-// // Run query, if there are errors they will be thrown as PDOExceptions
-// $dbc->exec($query);
+// Create the query to create table for names
+$query = 'CREATE TABLE names (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,    
+    PRIMARY KEY (id)
+)';
+// Run query, if there are errors they will be thrown as PDOExceptions
+$dbc->exec($query);
 
-// // Create the query to create table for addresses
-// $query = 'CREATE TABLE addresses (
-//     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-//     address VARCHAR(50) NOT NULL,
-//     city VARCHAR(50) NOT NULL,
-//     state VARCHAR(2) NOT NULL,
-//     zip VARCHAR(20) NOT NULL,
-//     phone VARCHAR(20),
-//     PRIMARY KEY (id)
-// )';
-// // Run query, if there are errors they will be thrown as PDOExceptions
-// $dbc->exec($query);
+// Create the query to create table for addresses
+$query = 'CREATE TABLE addresses (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    address VARCHAR(50) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    state VARCHAR(2) NOT NULL,
+    zip VARCHAR(5) NOT NULL,    
+    phone VARCHAR(10),
+    PRIMARY KEY (id)
+)';
+// Run query, if there are errors they will be thrown as PDOExceptions
+$dbc->exec($query);
 
-// $query = 'CREATE TABLE names_addresses_mapping (
-//   name_id INT(10) UNSIGNED DEFAULT NULL,
-//   address_id INT(10) UNSIGNED DEFAULT NULL,
-//   FOREIGN KEY (name_id) REFERENCES names (id),
-//   FOREIGN KEY (address_id) REFERENCES addresses (id)
-// )';
-// $dbc->exec($query);
+$query = 'CREATE TABLE names_addresses_mapping (
+  name_id INT(10) UNSIGNED DEFAULT NULL,
+  address_id INT(10) UNSIGNED DEFAULT NULL,
+  FOREIGN KEY (name_id) REFERENCES names (id),
+  FOREIGN KEY (address_id) REFERENCES addresses (id)
+)';
+$dbc->exec($query);
 
 function getTodos($dbc){
 	$stmt = $dbc->prepare('SELECT * FROM todos LIMIT :LIMIT OFFSET :OFFSET');
