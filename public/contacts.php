@@ -28,38 +28,38 @@ $dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_addressBook_db', 'frank', 'pa
 // Tell PDO to throw exceptions on error
 $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-//echo $dbc->getAttribute(PDO::ATTR_CONNECTION_STATUS) . "\n";
+echo $dbc->getAttribute(PDO::ATTR_CONNECTION_STATUS) . "\n";
 
-// // Create the query to create table for names
-// $query = 'CREATE TABLE contact (
-//     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-//     name VARCHAR(50) NOT NULL,    
-//     phone CHAR(12),
-//     PRIMARY KEY (id)
-// )';
-// // Run query, if there are errors they will be thrown as PDOExceptions
-// $dbc->exec($query);
+// Create the query to create table for names
+$query = 'CREATE TABLE contact (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,    
+    phone CHAR(12),
+    PRIMARY KEY (id)
+)';
+// Run query, if there are errors they will be thrown as PDOExceptions
+$dbc->exec($query);
 
-// // Create the query to create table for addresses
-// $query = 'CREATE TABLE addresses (
-//     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-//     address VARCHAR(50) NOT NULL,
-//     city VARCHAR(50) NOT NULL,
-//     state CHAR(2) NOT NULL,
-//     zip CHAR(5) NOT NULL,    
-//     PRIMARY KEY (id)
-// )';
-// // Run query, if there are errors they will be thrown as PDOExceptions
-// $dbc->exec($query);
+// Create the query to create table for addresses
+$query = 'CREATE TABLE addresses (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    address VARCHAR(50) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    state CHAR(2) NOT NULL,
+    zip CHAR(5) NOT NULL,    
+    PRIMARY KEY (id)
+)';
+// Run query, if there are errors they will be thrown as PDOExceptions
+$dbc->exec($query);
 
-// $query = 'CREATE TABLE names_addresses_mapping (
-//   contact_id INT(10) UNSIGNED DEFAULT NULL,
-//   address_id INT(10) UNSIGNED DEFAULT NULL,  
-//   PRIMARY KEY (contact_id, address_id),
-//   FOREIGN KEY (contact_id) REFERENCES contact (id) ON DELETE CASCADE,  
-//   FOREIGN KEY (address_id) REFERENCES addresses (id) ON DELETE CASCADE
-// )';
-// $dbc->exec($query);
+$query = 'CREATE TABLE names_addresses_mapping (
+  contact_id INT(10) UNSIGNED DEFAULT NULL,
+  address_id INT(10) UNSIGNED DEFAULT NULL,  
+  PRIMARY KEY (contact_id, address_id),
+  FOREIGN KEY (contact_id) REFERENCES contact (id) ON DELETE CASCADE,  
+  FOREIGN KEY (address_id) REFERENCES addresses (id) ON DELETE CASCADE
+)';
+$dbc->exec($query);
 
 //validate string to be over zero and under 125 characters
 function stringLengthCheck($string, $min=1, $max=125){
@@ -168,11 +168,10 @@ $contacts = getContact($dbc);
 				</td>
 				<!-- action buttons -->
 				<td>	
-					<a class="btn btn-small btn-default" href="contact_addresses.php?contact_id=1">View</a>
+					<a class="btn btn-small btn-default" href="contact_addresses.php?<?= $contact['id']; ?>">View</a>
 					<button class="btn btn-small btn-danger btn-remove" 
 						data-contactid="<?= $contact['id']; ?>"
 						data-contactname="<?= $contact['name']; ?>">Remove</button>
-
 				</td>
 			</tr>
 		<? endforeach; ?>	

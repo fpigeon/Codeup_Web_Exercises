@@ -9,9 +9,10 @@ LucasArts,"P.O. Box 29901","San Francisco",CA,94129-0901,
 //include classes
 require_once ('classes/address_data_store.php');
 
+//classes
 class InvalidInputException extends Exception { }
 
-//iniitailize class
+//initialize class
 $address_data_store1 = new AddressDataStore('data/ADDRESS_BOOK.CSV');//testing address_data_store lower case
 
 //variables
@@ -19,7 +20,6 @@ $address_book = []; // holds array for addresses
 $uploaded_addreses = []; //new array for uploaded files
 $error_msg=''; //initailize variable to hold error messages
 $heading = ['name', 'address', 'city', 'state', 'zip', 'phone', 'ACTION'];
-$saved_file_items = [];//new array for uploaded address book
 $isValid = false; //form validation
 
 //validate string to be over zero and under 125 characters
@@ -115,10 +115,10 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
 		</tr>			
 		<? foreach ($address_book as $key => $address) :?>
 			<tr>								
-			<? foreach ($address as $value) :?>
+			<? foreach ($address as $address_data) :?>
 				<!-- sanitize user input -->
-				<? $value = htmlspecialchars(strip_tags($value)); ?>
-				<td> <?= $value ?> </td>													
+				<? $address_data = htmlspecialchars(strip_tags($address_data)); ?>
+				<td> <?= $address_data ?> </td>													
 			<? endforeach;  ?>
 			<td><?= "<a href=\"?remove_item=$key\">Remove Address</a>"; ?></td> 									
 			</tr>				
