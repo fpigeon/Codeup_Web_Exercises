@@ -35,6 +35,10 @@ nav {
 	margin-right: 20px;
 }
 
+.social-list li {
+	margin-left: 20px;
+}
+
 .nav-list li a {
 	color: #fff;
 	text-decoration: none;
@@ -42,8 +46,10 @@ nav {
 
 .social-list {
 	float: right;
+	margin-top: 5px;
 }
 
 .nav-list {
 	padding-top: 10px;
+	float: left;
 }
