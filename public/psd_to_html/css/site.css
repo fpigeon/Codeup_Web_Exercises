@@ -1,3 +1,5 @@
+/*-----RED TEXT = #e46965------*/
+/*-----GRAY TEXT = #777------*/
 @import url(http://fonts.googleapis.com/css?family=Alegreya+Sans:400,700);
 html, body, ul, li, h1, h2, h3, h4, h5, h6, img, p {
 	color: #777;
@@ -5,19 +7,27 @@ html, body, ul, li, h1, h2, h3, h4, h5, h6, img, p {
 	margin: 0;
 	padding: 0;
 }
+
 body {
 	font-size: 14px;
 	letter-spacing: 0.2px;
 }
+
 h1, h2, h3, h4, h5, h6 {
 	font-family: 'Alegreya Sans', sans-serif;
 }
 
+h2 {
+	color: #e46965;
+	font-size: 40px;
+	font-weight: normal;
+	margin: 15px 0;
+}
 .container {
 	max-width: 900px;
 	margin: 0 auto;
 }
-/*MAIN NAV*/
+/*----------MAIN NAV--------------*/
 nav {
 	background-color: #dadada;
 	height: 40px;
@@ -53,3 +63,19 @@ nav {
 	padding-top: 10px;
 	float: left;
 }
+
+/*--------HEADER--------------*/
+header h1, header h3 {
+	font-weight: normal;
+	text-align: center;
+}
+header h1 {
+	font-size: 44px;
+	margin-top: 20px;
+}
+header h3 {
+	font-size: 20px;
+	color: #e46965;
+	margin-bottom: 20px;
+}
+
