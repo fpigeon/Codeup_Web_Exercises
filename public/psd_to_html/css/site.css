@@ -89,3 +89,14 @@ header h3 {
 	background: url('../images/feature-bg.jpg') top center no-repeat;
 	height: 300px;
 }
+
+.feature-list li {
+	width: 33.3333%;
+	height: 300px;
+	float: left;
+	border-left: 1px solid white;
+	box-sizing: border-box;
+}
+.feature-list li:last-child {
+    border-right: 1px solid white;
+}
