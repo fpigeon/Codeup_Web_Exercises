@@ -181,6 +181,25 @@ header h3 {
     float: right;
 }
 
+/*------FOOTER-----------*/
+footer {
+    background-color: #252525;
+    color: #9d9d9d;
+    padding: 20px 0 60px 0;
+}
+
+footer h3 {
+    color: #e46965;
+    font-size: 30px;
+    font-weight: normal;
+    margin: 10px 0;
+}
+
+.col-one-third {
+    width: 33%;
+    float:left;
+}
+
 /*-----CLEARFIX----------*/
 /*apply to the parent of the floated items*/
 .clearfix:after {
