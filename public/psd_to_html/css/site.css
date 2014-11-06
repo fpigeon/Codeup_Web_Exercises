@@ -124,6 +124,7 @@ header h3 {
     background-color: #dadada;
     /*top right bottom left*/
     padding: 5px 0 20px 0;
+    margin-top: 20px;
 }
 .portfolio-list {
     list-style: none;
@@ -135,6 +136,7 @@ header h3 {
     height: 210px;
     float: left;
     margin-right: 20px;
+    position: relative;
 }
 .portfolio-list li:last-child {
     margin-right: 0;
@@ -154,6 +156,29 @@ header h3 {
 
 .port-logo {
     background: url('../images/alogo.gif') center center no-repeat;
+}
+
+.portfolio-list li span {
+    /*does allow padding to go outside the box size*/
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
+    width: 210px;
+    height: 52px;
+    background-color: rgba(0,0,0, 0.5);
+    padding: 7px;
+}
+
+.portfolio-list a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    width: 105px;
+    float: left;
+}
+
+.portfolio-list .sample-icon {
+    float: right;
 }
 
 /*-----CLEARFIX----------*/
