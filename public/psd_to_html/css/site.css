@@ -157,6 +157,7 @@ header h3 {
 }
 
 /*-----CLEARFIX----------*/
+/*apply to the parent of the floated items*/
 .clearfix:after {
     content: ".";
     display: block;
