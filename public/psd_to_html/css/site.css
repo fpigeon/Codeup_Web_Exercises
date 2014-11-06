@@ -118,3 +118,82 @@ header h3 {
 .feature-list li a:hover .feature-title {
     opacity: 1;
 }
+
+/*--------PORTFOLIO--------------*/
+.portfolio-samples {
+    background-color: #dadada;
+    /*top right bottom left*/
+    padding: 5px 0 20px 0;
+}
+.portfolio-list {
+    list-style: none;
+}
+
+.portfolio-list li {
+    background-color: #555;
+    width: 210px;
+    height: 210px;
+    float: left;
+    margin-right: 20px;
+}
+.portfolio-list li:last-child {
+    margin-right: 0;
+}
+
+.port-laptops {
+    background: url('../images/laptops.jpg') center center no-repeat;
+}
+
+.port-acme {
+    background: url('../images/acme-logo.gif') -200px -60px no-repeat;
+}
+
+.port-demoreel {
+    background: url('../images/tablet.jpg') center center no-repeat;
+}
+
+.port-logo {
+    background: url('../images/alogo.gif') center center no-repeat;
+}
+
+/*-----CLEARFIX----------*/
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
