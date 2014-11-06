@@ -114,3 +114,7 @@ header h3 {
      font-weight: normal;
      margin-top: 5px;
 }
+
+.feature-list li a:hover .feature-title {
+    opacity: 1;
+}
