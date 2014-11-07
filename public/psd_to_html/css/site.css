@@ -282,7 +282,16 @@ html[xmlns] .clearfix {
     height: 1%;
 }
 
-
+/*-----RESPONSIVE-------*/
+@media (max-width: 899px) {
+    .container {
+        padding: 0 10px;
+    }
+    .feature-list {
+        margin: 0 10px;
+        padding: 0;
+    }
+}
 
 
 
